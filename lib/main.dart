@@ -47,30 +47,6 @@ class _HomePageState extends State<HomePage> {
                   );
               },
             ),
-            // SizedBox(
-            //   height: 30,
-            // ),
-            // ElevatedButton(
-            //   child: Text('Make Upi Payment'),
-            //   onPressed: () {
-            //     PaymentUtil.instance. makeUpiPayment(
-            //       {
-            //                     'orderId': orderId,
-            //                     'orderAmount': orderAmount,
-            //                     'customerName': customerName,
-            //                     'orderNote': orderNote,
-            //                     'orderCurrency': orderCurrency,
-            //                     'appId': appId,
-            //                     'customerPhone': customerPhone,
-            //                     'customerEmail': customerEmail,
-            //                     if (!kIsWeb) 'stage': stage,
-            //                     if (!kIsWeb) 'tokenData': tokenData,
-            //                     'notifyUrl': notifyUrl,
-            //                     'returnUrl': notifyUrl,
-            //                   },
-            //     );
-            //   },
-            // ),
           ],
         ),
       ),
