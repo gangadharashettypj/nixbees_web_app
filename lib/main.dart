@@ -1,40 +1,61 @@
-import 'dart:html';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:payment_gateway/models.dart';
-import 'package:payment_gateway/payment_util.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:logger/logger.dart';
+import 'package:payment_gateway/constants/constants.dart';
+import 'package:payment_gateway/router/router.dart';
+import 'package:payment_gateway/screens/home_page/home_page.dart';
+import 'package:payment_gateway/theme/dynamic_theme.dart';
+import 'package:payment_gateway/theme/theme.dart';
+import 'package:provider/provider.dart';
+
+var logger = Logger();
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider<DynamicTheme>(
+      create: (_) => DynamicTheme(),
+      child: MyHomePage(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomePage(),
-    );
+    final themeProvider = Provider.of<DynamicTheme>(context);
+
+    if (Constants.isNeu) {
+      return NeumorphicApp(
+        debugShowCheckedModeBanner: Constants.debugShowCheckedModeBanner,
+        themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+        theme: themeProvider.isDarkMode
+            ? MyTheme.instance.getDarkTheme()
+            : MyTheme.instance.getLightTheme(),
+        darkTheme: MyTheme.instance.getDarkTheme(),
+        onGenerateRoute: AppRouter.generateRoute,
+        home: HomePage(),
+      );
+    } else {
+      return MaterialApp(
+        debugShowCheckedModeBanner: Constants.debugShowCheckedModeBanner,
+        theme: themeProvider.isDarkMode
+            ? MyTheme.instance.getDarkTheme()
+            : MyTheme.instance.getLightTheme(),
+        onGenerateRoute: AppRouter.generateRoute,
+        home: HomePage(),
+        initialRoute: '/homePage',
+      );
+    }
   }
 }
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              child: Text('Make Web Payment'),
-              onPressed: () async {
-                if (kIsWeb)
+/*
+ if (kIsWeb)
                   PaymentUtil.instance.makeWebPayment(
                     PaymentModel(
                       customerEmail: 'gs@gmail.com',
@@ -45,11 +66,4 @@ class _HomePageState extends State<HomePage> {
                       stage: PaymentMode.prod,
                     ).toJsonString(),
                   );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+ */
