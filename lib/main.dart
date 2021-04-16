@@ -7,6 +7,7 @@ import 'package:payment_gateway/screens/home_page/home_page.dart';
 import 'package:payment_gateway/theme/dynamic_theme.dart';
 import 'package:payment_gateway/theme/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 var logger = Logger();
 
@@ -38,6 +39,16 @@ class _MyHomePageState extends State<MyHomePage> {
             : MyTheme.instance.getLightTheme(),
         darkTheme: MyTheme.instance.getDarkTheme(),
         onGenerateRoute: AppRouter.generateRoute,
+        builder: (context, child) => ResponsiveWrapper.builder(
+          child,
+          minWidth: 480,
+          defaultScale: true,
+          breakpoints: [
+            ResponsiveBreakpoint.resize(480, name: MOBILE),
+            ResponsiveBreakpoint.autoScale(800, name: TABLET),
+            ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+          ],
+        ),
         home: HomePage(),
       );
     } else {

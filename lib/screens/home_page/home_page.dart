@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:lottie/lottie.dart';
-import 'package:payment_gateway/common_widgets/button_widget.dart';
 import 'package:payment_gateway/common_widgets/scaffold/my_scaffold.dart';
 import 'package:payment_gateway/models.dart';
 import 'package:payment_gateway/payment_util.dart';
@@ -70,7 +69,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           fit: BoxFit.cover,
           child: Lottie.asset(
             MyLottieFile.bannerBackground,
-            // controller: bannerController,
           ),
         ),
       ),
@@ -81,38 +79,39 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Positioned(
       right: -50,
       bottom: -70,
-      child: Row(
+      child: Stack(
         children: [
-          Container(
-            height: 50,
-            child: ButtonWidget(
-              title: 'Pay',
-              margin: EdgeInsets.zero,
-              onPressed: () async {
-                manController.repeat();
-                Future.delayed(Duration(milliseconds: 2000), () {
-                  manController.reset();
-                  if (kIsWeb)
-                    PaymentUtil.instance.makeWebPayment(
-                      PaymentModel(
-                        customerEmail: 'gs@gmail.com',
-                        customerName: 'Gangadhara',
-                        customerPhone: '919916548851',
-                        orderAmount: '1',
-                        orderNote: 'Note note',
-                        stage: PaymentMode.prod,
-                      ).toJsonString(),
-                    );
-                });
-              },
-              color: Colors.white,
-              depth: 6,
-            ),
-          ),
           Lottie.asset(
             MyLottieFile.walkingMan,
             controller: manController,
             width: 320,
+          ),
+          Positioned(
+            bottom: 80,
+            child: Container(
+              height: 50,
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                child: Text('Pay'),
+                onPressed: () async {
+                  manController.repeat();
+                  Future.delayed(Duration(milliseconds: 2000), () {
+                    manController.reset();
+                    if (kIsWeb)
+                      PaymentUtil.instance.makeWebPayment(
+                        PaymentModel(
+                          customerEmail: 'gs@gmail.com',
+                          customerName: 'Gangadhara',
+                          customerPhone: '919916548851',
+                          orderAmount: '1',
+                          orderNote: 'Note note',
+                          stage: PaymentMode.prod,
+                        ).toJsonString(),
+                      );
+                  });
+                },
+              ),
+            ),
           ),
         ],
       ),
