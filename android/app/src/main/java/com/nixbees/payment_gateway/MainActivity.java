@@ -1,4 +1,4 @@
-package com.nixbees.payment_gateway;
+package com.nixbees.web_app;
 
 import io.flutter.embedding.android.FlutterActivity;
 
