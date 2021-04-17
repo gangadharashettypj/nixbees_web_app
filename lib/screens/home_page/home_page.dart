@@ -62,15 +62,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   getBanner() {
     return Positioned.fill(
-      child: OverflowBox(
-        maxHeight: MediaQuery.of(context).size.height,
-        alignment: Alignment.center,
-        child: FittedBox(
-          fit: BoxFit.cover,
-          child: Lottie.asset(
-            MyLottieFile.bannerBackground,
-          ),
-        ),
+      child: Lottie.asset(
+        MyLottieFile.bannerBackground,
+        fit: BoxFit.cover,
       ),
     );
   }
