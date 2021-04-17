@@ -1,12 +1,14 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:lottie/lottie.dart';
+import 'package:payment_gateway/common_widgets/flat_widget.dart';
+import 'package:payment_gateway/common_widgets/label_widget.dart';
 import 'package:payment_gateway/common_widgets/scaffold/my_scaffold.dart';
-import 'package:payment_gateway/models.dart';
-import 'package:payment_gateway/payment_util.dart';
 import 'package:payment_gateway/resources/lotties.dart';
 import 'package:payment_gateway/screens/home_page/widgets/title_bar.dart';
+import 'package:payment_gateway/simplifiers/sized_box.dart';
+import 'package:payment_gateway/theme/sizes.dart';
+import 'package:payment_gateway/utils/responsiveLayout.dart';
 
 class HomePage extends StatefulWidget {
   static const String route = '/homePage';
@@ -47,10 +49,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     getBanner(),
                     getMan(),
                     TitleBar(),
+                    // buildMenuBar(),
+                    buildScreen(),
                   ],
                 ),
               ),
-              Body(),
             ],
           ),
         ),
@@ -75,8 +78,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   getMan() {
     return Positioned(
-      right: -50,
-      bottom: -70,
+      right: -80,
+      bottom: -80,
       child: Stack(
         children: [
           Lottie.asset(
@@ -84,46 +87,107 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             controller: manController,
             width: 320,
           ),
-          Positioned(
-            bottom: 80,
-            child: Container(
-              height: 50,
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton(
-                child: Text('Pay'),
-                onPressed: () async {
-                  manController.repeat();
-                  Future.delayed(Duration(milliseconds: 2000), () {
-                    manController.reset();
-                    if (kIsWeb)
-                      PaymentUtil.instance.makeWebPayment(
-                        PaymentModel(
-                          customerEmail: 'gs@gmail.com',
-                          customerName: 'Gangadhara',
-                          customerPhone: '919916548851',
-                          orderAmount: '1',
-                          orderNote: 'Note note',
-                          stage: PaymentMode.prod,
-                        ).toJsonString(),
-                      );
-                  });
-                },
-              ),
-            ),
-          ),
+          // Positioned(
+          //   bottom: 80,
+          //   child: Container(
+          //     height: 50,
+          //     alignment: Alignment.bottomCenter,
+          //     child: ElevatedButton(
+          //       child: Text('Pay'),
+          //       onPressed: () async {
+          //         manController.repeat();
+          //         Future.delayed(Duration(milliseconds: 2000), () {
+          //           manController.reset();
+          //           if (kIsWeb)
+          //             PaymentUtil.instance.makeWebPayment(
+          //               PaymentModel(
+          //                 customerEmail: 'gs@gmail.com',
+          //                 customerName: 'Gangadhara',
+          //                 customerPhone: '919916548851',
+          //                 orderAmount: '1',
+          //                 orderNote: 'Note note',
+          //                 stage: PaymentMode.prod,
+          //               ).toJsonString(),
+          //             );
+          //         });
+          //       },
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
   }
-}
 
-class Body extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-    // return ResponsiveLayout(
-    //   largeScreen: LargeChild(),
-    //   smallScreen: SmallChild(),
-    // );
+  buildMenuBar() {
+    return ResponsiveLayout(
+      largeScreen: Row(
+        children: [
+          Expanded(child: Container()),
+          FlatButtonWidget(
+            title: 'Bulbs',
+            onPressed: () {},
+            color: Colors.white,
+            expanded: false,
+            showUnderline: true,
+          ),
+          FlatButtonWidget(
+            title: 'Battens',
+            onPressed: () {},
+            color: Colors.white,
+            expanded: false,
+            showUnderline: true,
+          ),
+          FlatButtonWidget(
+            title: 'Remote Control Bulbs',
+            onPressed: () {},
+            color: Colors.white,
+            expanded: false,
+            showUnderline: true,
+          ),
+          CustomSizedBox.w120,
+        ],
+      ),
+      smallScreen: Container(
+        margin: EdgeInsets.symmetric(vertical: 16),
+        child: FlatButtonWidget(
+          title: 'View Products',
+          showUnderline: true,
+          onPressed: () {},
+          expanded: false,
+        ),
+      ),
+    );
+  }
+
+  Widget buildScreen() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(),
+          ),
+          LabelWidget(
+            'Nixbees Lightings',
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            size: TextSize.title,
+          ),
+          CustomSizedBox.h30,
+          Container(
+            width: 600,
+            child: LabelWidget(
+              'Nixbees led technology ensures safe and long-lasting light source large illumination area: Lithium ion is maintenance-free meaning it does not require to be re-charged periodically to keep the product alive. Imagine it to be just like your mobile battery, charging it only when you need to.',
+              color: Colors.white70,
+            ),
+          ),
+          CustomSizedBox.h30,
+          CustomSizedBox.h30,
+          buildMenuBar(),
+        ],
+      ),
+    );
   }
 }

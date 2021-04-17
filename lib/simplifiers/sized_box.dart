@@ -23,4 +23,7 @@ class CustomSizedBox {
   static SizedBox get w18 => SizedBox(width: 18);
   static SizedBox get w24 => SizedBox(width: 24);
   static SizedBox get w30 => SizedBox(width: 30);
+  static SizedBox get w60 => SizedBox(width: 60);
+  static SizedBox get w90 => SizedBox(width: 90);
+  static SizedBox get w120 => SizedBox(width: 120);
 }
