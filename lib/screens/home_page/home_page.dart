@@ -127,21 +127,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           FlatButtonWidget(
             title: 'Bulbs',
             onPressed: () {},
-            color: Colors.white,
             expanded: false,
             showUnderline: true,
           ),
           FlatButtonWidget(
             title: 'Battens',
             onPressed: () {},
-            color: Colors.white,
             expanded: false,
             showUnderline: true,
           ),
           FlatButtonWidget(
             title: 'Remote Control Bulbs',
             onPressed: () {},
-            color: Colors.white,
             expanded: false,
             showUnderline: true,
           ),
