@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
     pageController = PageController(
       keepPage: true,
-      initialPage: 1,
+      initialPage: 0,
     );
 
     super.initState();
