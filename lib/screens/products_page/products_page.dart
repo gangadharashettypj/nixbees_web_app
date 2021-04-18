@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:payment_gateway/resources/images.dart';
 import 'package:payment_gateway/screens/products_page/products_page_controller.dart';
+import 'package:payment_gateway/screens/products_page/widgets/product_item.dart';
 import 'package:payment_gateway/simplifiers/sized_box.dart';
 import 'package:payment_gateway/utils/info_message_template.dart';
 
@@ -37,20 +38,20 @@ class _ProductsPageState extends State<ProductsPage> {
     }
 
     return Container(
-      margin: EdgeInsets.all(32),
+      margin: EdgeInsets.all(16),
       child: Column(
         children: [
-          CustomSizedBox.h100,
+          CustomSizedBox.h60,
           Expanded(
             child: SingleChildScrollView(
               child: Wrap(
                 children: List.generate(
-                  30,
+                  ProductsPageController.instance.products.length,
                   (index) => Container(
-                    height: 300,
-                    width: 300,
-                    color: Colors.white,
                     margin: EdgeInsets.all(8),
+                    child: ProductItemWidget(
+                      item: ProductsPageController.instance.products[index],
+                    ),
                   ),
                 ),
               ),
