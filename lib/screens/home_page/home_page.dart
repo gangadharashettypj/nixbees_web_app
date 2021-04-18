@@ -38,25 +38,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).size.height,
-                child: Stack(
-                  children: [
-                    getBanner(),
-                    getMan(),
-                    TitleBar(),
-                    // buildMenuBar(),
-                    buildScreen(),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+      body: Stack(
+        children: [
+          getBanner(),
+          getMan(),
+          TitleBar(),
+          // buildMenuBar(),
+          buildScreen(),
+        ],
       ),
     );
   }
@@ -123,34 +112,61 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return ResponsiveLayout(
       largeScreen: Row(
         children: [
-          Expanded(child: Container()),
           FlatButtonWidget(
             title: 'Bulbs',
             onPressed: () {},
             expanded: false,
+            fontSize: 13,
             showUnderline: true,
           ),
           FlatButtonWidget(
             title: 'Battens',
             onPressed: () {},
             expanded: false,
+            fontSize: 13,
             showUnderline: true,
           ),
           FlatButtonWidget(
             title: 'Remote Control Bulbs',
             onPressed: () {},
             expanded: false,
+            fontSize: 13,
             showUnderline: true,
           ),
-          CustomSizedBox.w120,
         ],
       ),
+      // mediumScreen: Row(
+      //   children: [
+      //     FlatButtonWidget(
+      //       title: 'Bulbs',
+      //       onPressed: () {},
+      //       expanded: false,
+      //       fontSize: 13,
+      //       showUnderline: true,
+      //     ),
+      //     FlatButtonWidget(
+      //       title: 'Battens',
+      //       onPressed: () {},
+      //       expanded: false,
+      //       fontSize: 13,
+      //       showUnderline: true,
+      //     ),
+      //     FlatButtonWidget(
+      //       title: 'Remote Control Bulbs',
+      //       onPressed: () {},
+      //       expanded: false,
+      //       fontSize: 13,
+      //       showUnderline: true,
+      //     ),
+      //   ],
+      // ),
       smallScreen: Container(
         margin: EdgeInsets.symmetric(vertical: 16),
         child: FlatButtonWidget(
           title: 'View Products',
           showUnderline: true,
           onPressed: () {},
+          fontSize: 13,
           expanded: false,
         ),
       ),
@@ -170,17 +186,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             'Nixbees Lightings',
             fontWeight: FontWeight.bold,
             color: Colors.white,
-            size: TextSize.title,
+            size: TextSize.subTitle,
           ),
-          CustomSizedBox.h30,
+          CustomSizedBox.h18,
           Container(
             width: 600,
             child: LabelWidget(
               'Nixbees led technology ensures safe and long-lasting light source large illumination area: Lithium ion is maintenance-free meaning it does not require to be re-charged periodically to keep the product alive. Imagine it to be just like your mobile battery, charging it only when you need to.',
               color: Colors.white70,
+              size: TextSize.h7,
             ),
           ),
-          CustomSizedBox.h30,
           CustomSizedBox.h30,
           buildMenuBar(),
         ],

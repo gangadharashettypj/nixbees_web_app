@@ -38,7 +38,7 @@ class _TitleBarState extends State<TitleBar> with TickerProviderStateMixin {
     return Stack(
       children: [
         Container(
-          height: 100,
+          height: 70,
           padding: EdgeInsets.only(bottom: 32, left: 8),
           child: Container(
             child: Row(
@@ -50,14 +50,14 @@ class _TitleBarState extends State<TitleBar> with TickerProviderStateMixin {
                         Opacity(
                           child: ImageWidget(
                             imageLocation: MyImages.logo,
-                            width: 100,
+                            width: 70,
                           ),
                           opacity: 1 - textController.value ?? 1,
                         ),
                         Opacity(
                           child: ImageWidget(
                             imageLocation: MyImages.neonLogo,
-                            width: 100,
+                            width: 70,
                           ),
                           opacity: textController.value ?? 0,
                         ),
@@ -71,12 +71,12 @@ class _TitleBarState extends State<TitleBar> with TickerProviderStateMixin {
                     textController,
                   ),
                 ),
-                CustomSizedBox.w30,
+                CustomSizedBox.w24,
                 LabelWidget(
                   'Lightings',
                   color: RawColors.whiteTranslucent,
                   fontWeight: FontWeight.bold,
-                  size: TextSize.title,
+                  size: TextSize.subTitle1,
                 ),
                 Expanded(
                   child: Container(),
@@ -92,12 +92,12 @@ class _TitleBarState extends State<TitleBar> with TickerProviderStateMixin {
 
   lampSwitch() {
     return Positioned(
-      left: 40,
+      left: 30,
       top: -22,
       child: Container(
         child: Lottie.asset(
           MyLottieFile.lampSwitch,
-          height: 100,
+          height: 70,
           controller: switchController,
         ),
       ),
