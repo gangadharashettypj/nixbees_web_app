@@ -30,12 +30,10 @@ dependencies:
   flutter_svg:
   hive: 1.4.4+1
   validators:
-  connectivity: 2.0.2
+  connectivity: 3.0.3
   fluttertoast: 7.1.6
   logger: 0.9.4
-  firebase_database: 6.0.0
-  firebase_auth:
-  firebase_core: 0.7.0
+  firebase_core:
   photo_view: 0.10.3
   auto_size_text: 2.1.0
   modal_bottom_sheet: ^1.0.0+1
@@ -44,11 +42,22 @@ dependencies:
   cupertino_icons: 1.0.2
   crypto: ^3.0.1
   dio: ^4.0.0
-  http: ^0.13.1
+  http:
   lottie: ^1.0.1
   url_launcher: ^6.0.3
   json_annotation: 3.1.1
   responsive_framework: ^0.1.0
+  firebase_database:
+    git:
+      url: https://github.com/gangadharashettypj/flutter_firebase_libs
+      ref: master
+      path: firebase_database/firebase_database
+  firebase_database_web:
+    git:
+      url: https://github.com/gangadharashettypj/flutter_firebase_libs
+      ref: master
+      path: firebase_database/firebase_database_web
+
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +67,7 @@ dev_dependencies:
 
 dependency_overrides:
   crypto: ^3.0.1
+  http_parser: ^4.0.0
 
 flutter:
 

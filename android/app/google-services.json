@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "561789871964",
+    "firebase_url": "https://nixbeeswebsite.firebaseio.com",
+    "project_id": "nixbeeswebsite",
+    "storage_bucket": "nixbeeswebsite.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561789871964:android:f43855dd1e1b5cfb178399",
+        "android_client_info": {
+          "package_name": "com.nixbees.web_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "561789871964-s0c93tom304lvi968rjhf2e8qvmjemn6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDd1T_WmtinWhE0Vv6HRgz19liXSTXbbjM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "561789871964-s0c93tom304lvi968rjhf2e8qvmjemn6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -69,41 +69,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Positioned(
       right: -80,
       bottom: -80,
-      child: Stack(
-        children: [
-          Lottie.asset(
-            MyLottieFile.walkingMan,
-            controller: manController,
-            width: 320,
-          ),
-          // Positioned(
-          //   bottom: 80,
-          //   child: Container(
-          //     height: 50,
-          //     alignment: Alignment.bottomCenter,
-          //     child: ElevatedButton(
-          //       child: Text('Pay'),
-          //       onPressed: () async {
-          //         manController.repeat();
-          //         Future.delayed(Duration(milliseconds: 2000), () {
-          //           manController.reset();
-          //           if (kIsWeb)
-          //             PaymentUtil.instance.makeWebPayment(
-          //               PaymentModel(
-          //                 customerEmail: 'gs@gmail.com',
-          //                 customerName: 'Gangadhara',
-          //                 customerPhone: '919916548851',
-          //                 orderAmount: '1',
-          //                 orderNote: 'Note note',
-          //                 stage: PaymentMode.prod,
-          //               ).toJsonString(),
-          //             );
-          //         });
-          //       },
-          //     ),
-          //   ),
-          // ),
-        ],
+      child: Lottie.asset(
+        MyLottieFile.walkingMan,
+        controller: manController,
+        width: 320,
       ),
     );
   }
