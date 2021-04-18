@@ -15,6 +15,9 @@ class CustomSizedBox {
   static SizedBox get h40 => SizedBox(height: 40);
   static SizedBox get h50 => SizedBox(height: 50);
   static SizedBox get h60 => SizedBox(height: 60);
+  static SizedBox get h80 => SizedBox(height: 80);
+  static SizedBox get h100 => SizedBox(height: 100);
+  static SizedBox get h120 => SizedBox(height: 120);
 
   static SizedBox get w2 => SizedBox(width: 3);
   static SizedBox get w4 => SizedBox(width: 4);

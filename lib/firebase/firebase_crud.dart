@@ -2,7 +2,6 @@
  * @Author GS
  */
 import 'package:firebase_database/firebase_database.dart';
-import 'package:payment_gateway/db/DB.dart';
 import 'package:payment_gateway/main.dart';
 import 'package:payment_gateway/model/response.dart';
 
@@ -82,15 +81,8 @@ class FirebaseCrud {
 
   Future<dynamic> read(String path, {bool cache = false}) async {
     logger.i('Getting data from: $path');
-    if (DB.instance.containsKeyData(path) && cache) {
-      logger.i('Got data from cache: $path');
-      return DB.instance.getData(path);
-    }
     DataSnapshot snap =
         await FirebaseDatabase.instance.reference().child(path).once();
-    if (snap.value != null) {
-      DB.instance.storeData(path, snap.value);
-    }
     logger.i('Got data: ${snap.value}');
     return snap.value;
   }

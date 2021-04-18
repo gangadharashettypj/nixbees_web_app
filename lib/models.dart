@@ -35,3 +35,81 @@ class PaymentModel {
   Map<String, dynamic> toJson() => _$PaymentModelToJson(this);
   String toJsonString() => jsonEncode(_$PaymentModelToJson(this));
 }
+
+@JsonSerializable(explicitToJson: true, anyMap: true)
+class ProductItem {
+  String id;
+  String name;
+  String description;
+  int offerPrice;
+  int price;
+  String url;
+  List<ProductSpec> spec;
+  List<ProductFeature> features;
+  ProductMedia media;
+
+  ProductItem({
+    this.id,
+    this.name,
+    this.description,
+    this.offerPrice,
+    this.price,
+    this.url,
+    this.media,
+    this.features,
+    this.spec,
+  });
+
+  factory ProductItem.fromJson(Map<String, dynamic> json) =>
+      _$ProductItemFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductItemToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true, anyMap: true)
+class ProductSpec {
+  String title;
+  String desc;
+
+  ProductSpec({
+    this.title,
+    this.desc,
+  });
+
+  factory ProductSpec.fromJson(Map<String, dynamic> json) =>
+      _$ProductSpecFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductSpecToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true, anyMap: true)
+class ProductFeature {
+  String title;
+  String desc;
+
+  ProductFeature({
+    this.title,
+    this.desc,
+  });
+
+  factory ProductFeature.fromJson(Map<String, dynamic> json) =>
+      _$ProductFeatureFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductFeatureToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true, anyMap: true)
+class ProductMedia {
+  List<String> images;
+  List<String> videos;
+
+  ProductMedia({
+    this.images,
+    this.videos,
+  });
+
+  factory ProductMedia.fromJson(Map<String, dynamic> json) =>
+      _$ProductMediaFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductMediaToJson(this);
+}

@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onGenerateRoute: AppRouter.generateRoute,
         builder: (context, child) => ResponsiveWrapper.builder(
           child,
-          minWidth: 480,
+          minWidth: 380,
           defaultScale: true,
           breakpoints: [
             ResponsiveBreakpoint.resize(480, name: MOBILE),

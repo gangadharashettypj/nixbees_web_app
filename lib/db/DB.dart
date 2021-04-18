@@ -3,6 +3,7 @@
  */
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 class DB {
@@ -10,9 +11,12 @@ class DB {
   static Box _box;
   static DB get instance {
     _instance ??= DB();
+
     if (_box == null) {
-      var path = Directory.systemTemp.path;
-      Hive.init(path);
+      if (!kIsWeb) {
+        var path = Directory.systemTemp.path;
+        Hive.init(path);
+      }
       Hive.openBox('default').then((value) {
         _box = value;
       });

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:lottie/lottie.dart';
 import 'package:payment_gateway/common_widgets/flat_widget.dart';
@@ -6,6 +7,7 @@ import 'package:payment_gateway/common_widgets/label_widget.dart';
 import 'package:payment_gateway/common_widgets/scaffold/my_scaffold.dart';
 import 'package:payment_gateway/resources/lotties.dart';
 import 'package:payment_gateway/screens/home_page/widgets/title_bar.dart';
+import 'package:payment_gateway/screens/products_page/products_page.dart';
 import 'package:payment_gateway/simplifiers/sized_box.dart';
 import 'package:payment_gateway/theme/sizes.dart';
 import 'package:payment_gateway/utils/responsiveLayout.dart';
@@ -19,11 +21,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   AnimationController manController;
+  PageController pageController;
   @override
   void initState() {
     manController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 800),
+    );
+    pageController = PageController(
+      keepPage: true,
+      initialPage: 1,
     );
 
     super.initState();
@@ -40,11 +47,32 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return MyScaffold(
       body: Stack(
         children: [
-          getBanner(),
+          PageView(
+            physics: new NeverScrollableScrollPhysics(),
+            controller: pageController,
+            children: [
+              Stack(
+                children: [
+                  getBanner(),
+                  buildScreen(),
+                ],
+              ),
+              ProductsPage(),
+            ],
+          ),
+          TitleBar(
+            onTap: () async {
+              manController.repeat(reverse: true);
+              await pageController.animateToPage(
+                0,
+                duration: Duration(milliseconds: 1600),
+                curve: Curves.ease,
+              );
+              manController.stop();
+              manController.reset();
+            },
+          ),
           getMan(),
-          TitleBar(),
-          // buildMenuBar(),
-          buildScreen(),
         ],
       ),
     );
@@ -67,12 +95,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   getMan() {
     return Positioned(
-      right: -80,
-      bottom: -80,
-      child: Lottie.asset(
-        MyLottieFile.walkingMan,
-        controller: manController,
-        width: 320,
+      right: 0,
+      bottom: 0,
+      height: 70,
+      child: Transform.scale(
+        scale: 3,
+        child: Lottie.asset(
+          MyLottieFile.walkingMan,
+          controller: manController,
+        ),
       ),
     );
   }
@@ -84,7 +115,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           Expanded(child: Container()),
           FlatButtonWidget(
             title: 'Bulbs',
-            onPressed: () {},
+            onPressed: () async {
+              manController.repeat();
+              await pageController.animateToPage(
+                1,
+                duration: Duration(milliseconds: 1600),
+                curve: Curves.ease,
+              );
+              manController.stop();
+              manController.reset();
+            },
             expanded: false,
             showUnderline: true,
           ),
@@ -100,7 +140,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             expanded: false,
             showUnderline: true,
           ),
-          CustomSizedBox.w120,
+          CustomSizedBox.w90,
         ],
       ),
       smallScreen: Container(
