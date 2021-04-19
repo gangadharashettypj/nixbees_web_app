@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
     pageController = PageController(
       keepPage: true,
-      initialPage: 0,
+      initialPage: 1,
     );
 
     super.initState();
@@ -123,7 +123,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 curve: Curves.ease,
               );
               manController.stop();
-              manController.reset();
             },
             expanded: false,
             showUnderline: true,

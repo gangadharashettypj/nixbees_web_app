@@ -12,8 +12,8 @@ class ProductItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
       width: 300,
+      color: Colors.orange.shade400,
       child: Column(
         children: [
           ImageWidget(
