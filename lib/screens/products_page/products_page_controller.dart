@@ -10,12 +10,13 @@ class ProductsPageController {
 
   List<ProductItem> products;
 
-  Future<void> getProductsList() async {
+  Future<List<ProductItem>> getProductsList() async {
     products = [];
     Map<String, dynamic> data =
         await FirebaseCrud.instance.read('app_data/products/Bulbs');
     data.forEach((key, value) {
       products.add(ProductItem.fromJson(value));
     });
+    return products;
   }
 }

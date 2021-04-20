@@ -11,6 +11,7 @@ class LabelWidget extends StatelessWidget {
   final EdgeInsets padding;
   final FontWeight fontWeight;
   final TextAlign textAlign;
+  final TextDecoration decoration;
   LabelWidget(
     this.text, {
     this.size,
@@ -18,6 +19,7 @@ class LabelWidget extends StatelessWidget {
     this.padding,
     this.fontWeight,
     this.textAlign,
+    this.decoration,
   });
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class LabelWidget extends StatelessWidget {
           fontSize: size,
           color: color ?? MyColors.textColor,
           fontWeight: fontWeight ?? FontWeight.w400,
+          decoration: decoration,
         ),
         textAlign: textAlign,
       ),

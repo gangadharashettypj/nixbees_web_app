@@ -14,6 +14,7 @@ class ButtonWidget extends StatelessWidget {
   final bool expanded;
   final String title;
   final Color color;
+  final Color backgroundColor;
   final double depth;
   final double loaderSize;
   final EdgeInsets padding;
@@ -41,6 +42,7 @@ class ButtonWidget extends StatelessWidget {
     this.prefix,
     this.suffix,
     this.margin,
+    this.backgroundColor,
   });
   @override
   Widget build(BuildContext context) {
@@ -70,6 +72,7 @@ class ButtonWidget extends StatelessWidget {
               boxShape: buttonBoxShape ?? NeumorphicBoxShape.stadium(),
               depth:
                   controller != null && controller.showLoading ? 0 : depth ?? 4,
+              color: backgroundColor,
             ),
             child: controller != null && controller.showLoading
                 ? CircularProgressIndicatorWidget(

@@ -12,54 +12,49 @@ class ProductsPage extends StatefulWidget {
 
 class _ProductsPageState extends State<ProductsPage> {
   @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await ProductsPageController.instance.getProductsList();
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (ProductsPageController.instance.products == null) {
-      return InfoMessageTemplate(
-        'Loading!',
-        showLoader: true,
-        subTitle: 'Getting products List',
-      );
-    }
-    if (ProductsPageController.instance.products.isEmpty) {
-      return InfoMessageTemplate(
-        'Sorry!',
-        image: MyImages.error,
-        subTitle: 'No products found',
-      );
-    }
-
-    return Container(
-      margin: EdgeInsets.all(16),
-      child: Column(
-        children: [
-          CustomSizedBox.h60,
-          Expanded(
-            child: SingleChildScrollView(
-              child: Wrap(
-                children: List.generate(
-                  ProductsPageController.instance.products.length,
-                  (index) => Container(
-                    margin: EdgeInsets.all(8),
-                    child: ProductItemWidget(
-                      item: ProductsPageController.instance.products[index],
+    return FutureBuilder(
+      future: ProductsPageController.instance.getProductsList(),
+      builder: (context, data) {
+        if (!data.hasData) {
+          return InfoMessageTemplate(
+            'Loading!',
+            showLoader: true,
+            subTitle: 'Getting products List',
+          );
+        }
+        if (data.data.isEmpty) {
+          return InfoMessageTemplate(
+            'Sorry!',
+            image: MyImages.error,
+            subTitle: 'No products found',
+          );
+        }
+        return Container(
+          margin: EdgeInsets.all(16),
+          child: Column(
+            children: [
+              CustomSizedBox.h60,
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    children: List.generate(
+                      ProductsPageController.instance.products.length,
+                      (index) => Container(
+                        margin: EdgeInsets.all(46),
+                        child: ProductItemWidget(
+                          item: ProductsPageController.instance.products[index],
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
+              CustomSizedBox.h80,
+            ],
           ),
-          CustomSizedBox.h80,
-        ],
-      ),
+        );
+      },
     );
   }
 }
