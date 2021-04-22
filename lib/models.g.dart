@@ -145,3 +145,22 @@ Map<String, dynamic> _$ProductMediaToJson(ProductMedia instance) =>
       'images': instance.images,
       'videos': instance.videos,
     };
+
+ProductVariants _$ProductVariantsFromJson(Map json) {
+  return ProductVariants(
+    name: json['name'] as String,
+    id: json['id'] as String,
+    image: json['image'] as String,
+    subTitle: json['subTitle'] as String,
+    backgroundColor: json['backgroundColor'] as String,
+  );
+}
+
+Map<String, dynamic> _$ProductVariantsToJson(ProductVariants instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'id': instance.id,
+      'image': instance.image,
+      'subTitle': instance.subTitle,
+      'backgroundColor': instance.backgroundColor,
+    };

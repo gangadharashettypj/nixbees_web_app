@@ -113,3 +113,25 @@ class ProductMedia {
 
   Map<String, dynamic> toJson() => _$ProductMediaToJson(this);
 }
+
+@JsonSerializable(explicitToJson: true, anyMap: true)
+class ProductVariants {
+  String name;
+  String id;
+  String image;
+  String subTitle;
+  String backgroundColor;
+
+  ProductVariants({
+    this.name,
+    this.id,
+    this.image,
+    this.subTitle,
+    this.backgroundColor,
+  });
+
+  factory ProductVariants.fromJson(Map<String, dynamic> json) =>
+      _$ProductVariantsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductVariantsToJson(this);
+}

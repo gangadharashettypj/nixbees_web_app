@@ -3,9 +3,7 @@ import 'package:payment_gateway/common_widgets/button_widget.dart';
 import 'package:payment_gateway/common_widgets/image_widget.dart';
 import 'package:payment_gateway/common_widgets/label_widget.dart';
 import 'package:payment_gateway/models.dart';
-import 'package:payment_gateway/navigator/navigator.dart';
 import 'package:payment_gateway/resources/colors.dart';
-import 'package:payment_gateway/screens/product_detail/product_detail.dart';
 import 'package:payment_gateway/simplifiers/sized_box.dart';
 import 'package:payment_gateway/theme/sizes.dart';
 
@@ -85,29 +83,20 @@ class ProductItemWidget extends StatelessWidget {
   }
 
   Widget buildBuyButton(BuildContext context) {
-    return Positioned(
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: ButtonWidget(
-        title: 'Buy',
-        onPressed: () {
-          NavigationService.instance.push(
-            context,
-            ProductDetail.route,
-          );
-        },
-        expanded: false,
-        color: MyColors.primary,
-        backgroundColor: MyColors.primaryDark,
-        depth: 2,
-      ),
+    return ButtonWidget(
+      title: 'Buy',
+      onPressed: () {},
+      expanded: false,
+      color: MyColors.primary,
+      backgroundColor: MyColors.primaryDark,
+      depth: 2,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           margin: EdgeInsets.only(bottom: 30),

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:lottie/lottie.dart';
-import 'package:payment_gateway/common_widgets/flat_widget.dart';
 import 'package:payment_gateway/common_widgets/label_widget.dart';
 import 'package:payment_gateway/common_widgets/scaffold/my_scaffold.dart';
+import 'package:payment_gateway/resources/colors.dart';
 import 'package:payment_gateway/resources/lotties.dart';
 import 'package:payment_gateway/screens/home_page/widgets/title_bar.dart';
 import 'package:payment_gateway/screens/products_page/products_page.dart';
+import 'package:payment_gateway/screens/products_page/products_page_controller.dart';
 import 'package:payment_gateway/simplifiers/sized_box.dart';
 import 'package:payment_gateway/theme/sizes.dart';
-import 'package:payment_gateway/utils/responsiveLayout.dart';
 
 class HomePage extends StatefulWidget {
   static const String route = '/homePage';
@@ -22,6 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   AnimationController manController;
   PageController pageController;
+  String selectedVariant;
   @override
   void initState() {
     manController = AnimationController(
@@ -48,8 +49,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       body: Stack(
         children: [
           PageView(
-            physics: new NeverScrollableScrollPhysics(),
             controller: pageController,
+            scrollDirection: Axis.vertical,
+            physics: NeverScrollableScrollPhysics(),
             children: [
               Stack(
                 children: [
@@ -57,7 +59,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   buildScreen(),
                 ],
               ),
-              ProductsPage(),
+              ProductsPage(
+                selectedVariant: selectedVariant,
+              ),
             ],
           ),
           TitleBar(
@@ -72,7 +76,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               manController.reset();
             },
           ),
-          getMan(),
+          // getMan(),
         ],
       ),
     );
@@ -109,48 +113,64 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   buildMenuBar() {
-    return ResponsiveLayout(
-      largeScreen: Row(
-        children: [
-          Expanded(child: Container()),
-          FlatButtonWidget(
-            title: 'Bulbs',
-            onPressed: () async {
-              manController.repeat();
-              await pageController.animateToPage(
-                1,
-                duration: Duration(milliseconds: 1600),
-                curve: Curves.ease,
-              );
-              manController.stop();
-            },
-            expanded: false,
-            showUnderline: true,
-          ),
-          FlatButtonWidget(
-            title: 'Battens',
-            onPressed: () {},
-            expanded: false,
-            showUnderline: true,
-          ),
-          FlatButtonWidget(
-            title: 'Remote Control Bulbs',
-            onPressed: () {},
-            expanded: false,
-            showUnderline: true,
-          ),
-          CustomSizedBox.w90,
-        ],
-      ),
-      smallScreen: Container(
-        margin: EdgeInsets.symmetric(vertical: 16),
-        child: FlatButtonWidget(
-          title: 'View Products',
-          showUnderline: true,
-          onPressed: () {},
-          expanded: false,
-        ),
-      ),
+    return FutureBuilder(
+      future: ProductsPageController.instance.getProductsVariants(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Container(
+            width: double.infinity,
+            child: Wrap(
+              alignment: WrapAlignment.spaceEvenly,
+              children: List.generate(
+                ProductsPageController.instance.productVariants.length,
+                (index) {
+                  return InkWell(
+                    hoverColor: Colors.black,
+                    borderRadius: BorderRadius.circular(8),
+                    splashColor: MyColors.primary.withAlpha(125),
+                    onTap: () {
+                      setState(() {
+                        selectedVariant = ProductsPageController
+                            .instance.productVariants[index].id;
+                      });
+                      pageController.animateToPage(
+                        1,
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.ease,
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 3,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          LabelWidget(
+                            ProductsPageController
+                                .instance.productVariants[index].name,
+                            color: MyColors.primary,
+                            size: TextSize.subTitle,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          CustomSizedBox.w6,
+                          Lottie.asset(
+                            MyLottieFile.rightArrow,
+                            width: 35,
+                            height: 35,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
+        }
+        return Container();
+      },
     );
   }
 
