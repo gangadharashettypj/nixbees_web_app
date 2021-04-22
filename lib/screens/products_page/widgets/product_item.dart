@@ -9,16 +9,18 @@ import 'package:payment_gateway/theme/sizes.dart';
 
 class ProductItemWidget extends StatelessWidget {
   final ProductItem item;
-
+  final Function onBuy;
   const ProductItemWidget({
     Key key,
     this.item,
+    this.onBuy,
   }) : super(key: key);
 
   Widget buildCard() {
     return Container(
       width: 300,
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+      margin: EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
@@ -85,7 +87,7 @@ class ProductItemWidget extends StatelessWidget {
   Widget buildBuyButton(BuildContext context) {
     return ButtonWidget(
       title: 'Buy',
-      onPressed: () {},
+      onPressed: onBuy,
       expanded: false,
       color: MyColors.primary,
       backgroundColor: MyColors.primaryDark,

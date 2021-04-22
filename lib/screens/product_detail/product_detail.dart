@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:payment_gateway/models.dart';
 
 class ProductDetail extends StatefulWidget {
   static const String route = '/productDetail';
-  final ProductItem item;
-
-  const ProductDetail({
-    Key key,
-    this.item,
-  }) : super(key: key);
 
   @override
   _ProductDetailState createState() => _ProductDetailState();

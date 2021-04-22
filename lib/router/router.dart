@@ -17,9 +17,7 @@ class AppRouter {
       case ProductDetail.route:
         return MaterialPageRoute(
           settings: settings,
-          builder: (_) => ProductDetail(
-            item: settings.arguments,
-          ),
+          builder: (_) => ProductDetail(),
         );
       default:
         return MaterialPageRoute(

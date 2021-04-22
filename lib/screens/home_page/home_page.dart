@@ -4,9 +4,11 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:lottie/lottie.dart';
 import 'package:payment_gateway/common_widgets/label_widget.dart';
 import 'package:payment_gateway/common_widgets/scaffold/my_scaffold.dart';
+import 'package:payment_gateway/models.dart';
 import 'package:payment_gateway/resources/colors.dart';
 import 'package:payment_gateway/resources/lotties.dart';
 import 'package:payment_gateway/screens/home_page/widgets/title_bar.dart';
+import 'package:payment_gateway/screens/product_detail/product_detail.dart';
 import 'package:payment_gateway/screens/products_page/products_page.dart';
 import 'package:payment_gateway/screens/products_page/products_page_controller.dart';
 import 'package:payment_gateway/simplifiers/sized_box.dart';
@@ -14,7 +16,8 @@ import 'package:payment_gateway/theme/sizes.dart';
 
 class HomePage extends StatefulWidget {
   static const String route = '/homePage';
-
+  static String selectedVariant;
+  static ProductItem selectedItem;
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -22,7 +25,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   AnimationController manController;
   PageController pageController;
-  String selectedVariant;
+
   @override
   void initState() {
     manController = AnimationController(
@@ -50,7 +53,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         children: [
           PageView(
             controller: pageController,
-            scrollDirection: Axis.vertical,
+            scrollDirection: Axis.horizontal,
             physics: NeverScrollableScrollPhysics(),
             children: [
               Stack(
@@ -60,17 +63,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ],
               ),
               ProductsPage(
-                selectedVariant: selectedVariant,
+                onBuyItem: (item) {
+                  HomePage.selectedItem = item;
+                  pageController.animateToPage(
+                    2,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                  );
+                },
               ),
+              ProductDetail(),
             ],
           ),
           TitleBar(
             onTap: () async {
               manController.repeat(reverse: true);
-              await pageController.animateToPage(
+              pageController.jumpToPage(
                 0,
-                duration: Duration(milliseconds: 1600),
-                curve: Curves.ease,
               );
               manController.stop();
               manController.reset();
@@ -129,10 +138,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     borderRadius: BorderRadius.circular(8),
                     splashColor: MyColors.primary.withAlpha(125),
                     onTap: () {
-                      setState(() {
-                        selectedVariant = ProductsPageController
-                            .instance.productVariants[index].id;
-                      });
+                      HomePage.selectedVariant = ProductsPageController
+                          .instance.productVariants[index].id;
                       pageController.animateToPage(
                         1,
                         duration: Duration(milliseconds: 500),
