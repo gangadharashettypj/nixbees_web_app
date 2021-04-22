@@ -3,7 +3,6 @@
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:payment_gateway/resources/colors.dart';
 
 class IconWidget extends StatelessWidget {
   final IconData icon;
@@ -11,6 +10,7 @@ class IconWidget extends StatelessWidget {
   final double size;
   final double depth;
   final Color color;
+  final Color backgroundColor;
 
   const IconWidget({
     Key key,
@@ -19,28 +19,25 @@ class IconWidget extends StatelessWidget {
     this.size,
     this.color,
     this.depth,
+    this.backgroundColor,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Neumorphic(
-      style: NeumorphicStyle(
-        boxShape: NeumorphicBoxShape.circle(),
-        shape: NeumorphicShape.concave,
-        color: MyColors.neuBackground,
-        depth: depth,
-      ),
-      child: GestureDetector(
+    return InkWell(
+      borderRadius: BorderRadius.circular(100),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(100),
         child: Container(
           padding: EdgeInsets.all(8),
-          color: Colors.transparent,
+          color: backgroundColor ?? Colors.transparent,
           child: Icon(
             icon,
             size: size,
             color: color,
           ),
         ),
-        onTap: onTap,
       ),
+      onTap: onTap,
     );
   }
 }
