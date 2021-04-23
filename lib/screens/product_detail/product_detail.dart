@@ -16,7 +16,12 @@ import 'package:payment_gateway/utils/validators.dart';
 
 class ProductDetail extends StatefulWidget {
   static const String route = '/productDetail';
+  final Function onDone;
 
+  const ProductDetail({
+    Key key,
+    @required this.onDone,
+  }) : super(key: key);
   @override
   _ProductDetailState createState() => _ProductDetailState();
 }
@@ -308,6 +313,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         stage: PaymentMode.prod,
                       ).toJsonString(),
                     );
+                    widget.onDone?.call();
                   }
                 }
               },
