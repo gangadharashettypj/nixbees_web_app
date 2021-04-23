@@ -86,10 +86,12 @@ class ProductSpec {
 class ProductFeature {
   String title;
   String desc;
+  String image;
 
   ProductFeature({
     this.title,
     this.desc,
+    this.image,
   });
 
   factory ProductFeature.fromJson(Map<String, dynamic> json) =>

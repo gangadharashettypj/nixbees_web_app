@@ -124,6 +124,7 @@ ProductFeature _$ProductFeatureFromJson(Map json) {
   return ProductFeature(
     title: json['title'] as String,
     desc: json['desc'] as String,
+    image: json['image'] as String,
   );
 }
 
@@ -131,6 +132,7 @@ Map<String, dynamic> _$ProductFeatureToJson(ProductFeature instance) =>
     <String, dynamic>{
       'title': instance.title,
       'desc': instance.desc,
+      'image': instance.image,
     };
 
 ProductMedia _$ProductMediaFromJson(Map json) {
