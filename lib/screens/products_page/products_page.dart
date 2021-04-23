@@ -5,6 +5,7 @@ import 'package:payment_gateway/screens/home_page/home_page.dart';
 import 'package:payment_gateway/screens/products_page/products_page_controller.dart';
 import 'package:payment_gateway/screens/products_page/widgets/product_item.dart';
 import 'package:payment_gateway/utils/info_message_template.dart';
+import 'package:payment_gateway/utils/responsiveLayout.dart';
 
 class ProductsPage extends StatefulWidget {
   final Function(ProductItem) onBuyItem;
@@ -23,7 +24,10 @@ class _ProductsPageState extends State<ProductsPage> {
   Widget build(BuildContext context) {
     controller ??= PageController(
       viewportFraction: getFractionView(context),
-      initialPage: 0,
+      initialPage: ResponsiveLayout.isMediumScreen(context) ||
+              ResponsiveLayout.isLargeScreen(context)
+          ? 1
+          : 0,
     );
     return FutureBuilder(
       future: ProductsPageController.instance.getProductsList(

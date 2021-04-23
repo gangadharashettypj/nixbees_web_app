@@ -24,26 +24,29 @@ class TextFieldWidget extends StatelessWidget {
   final bool alignLabelWithHint;
   final IconData suffixIcon;
   final int maxLength;
+  final double size;
 
-  TextFieldWidget(
-      {this.validator,
-      this.hintText,
-      this.textInputType,
-      this.numberOfLine = 1,
-      this.placeholder,
-      this.onChanged,
-      this.initialValue,
-      this.helperText,
-      this.obscureText = false,
-      this.onTap,
-      this.prefix,
-      this.counterText,
-      this.filled,
-      this.padding,
-      this.maxLength,
-      this.suffixIcon,
-      this.alignLabelWithHint = true,
-      this.onSaved}) {
+  TextFieldWidget({
+    this.validator,
+    this.hintText,
+    this.textInputType,
+    this.numberOfLine = 1,
+    this.placeholder,
+    this.onChanged,
+    this.initialValue,
+    this.helperText,
+    this.obscureText = false,
+    this.onTap,
+    this.prefix,
+    this.counterText,
+    this.filled,
+    this.padding,
+    this.maxLength,
+    this.suffixIcon,
+    this.alignLabelWithHint = true,
+    this.onSaved,
+    this.size,
+  }) {
     controller.text = initialValue;
   }
   TextEditingController controller = TextEditingController();
@@ -73,7 +76,7 @@ class TextFieldWidget extends StatelessWidget {
           padding: padding ??
               EdgeInsets.symmetric(
                   horizontal: 18,
-                  vertical: prefix != null || suffixIcon != null ? 4 : 12),
+                  vertical: prefix != null || suffixIcon != null ? 4 : 16),
           child: TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             onTap: onTap,
@@ -92,12 +95,15 @@ class TextFieldWidget extends StatelessWidget {
               hintText: placeholder,
               fillColor: Colors.white,
               border: InputBorder.none,
+              errorStyle: TextStyle(
+                color: MyColors.primary,
+              ),
               floatingLabelBehavior: FloatingLabelBehavior.never,
               alignLabelWithHint: alignLabelWithHint,
             ),
             maxLines: numberOfLine,
             style: TextStyle(
-              fontSize: 18,
+              fontSize: size ?? 18,
             ),
             maxLength: maxLength,
             textAlignVertical: TextAlignVertical.center,

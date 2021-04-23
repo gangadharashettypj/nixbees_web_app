@@ -1,12 +1,18 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:payment_gateway/common_widgets/button_widget.dart';
 import 'package:payment_gateway/common_widgets/icon_widget.dart';
 import 'package:payment_gateway/common_widgets/image_widget.dart';
 import 'package:payment_gateway/common_widgets/label_widget.dart';
+import 'package:payment_gateway/common_widgets/textfield_widget.dart';
+import 'package:payment_gateway/models.dart';
+import 'package:payment_gateway/payment_util.dart';
 import 'package:payment_gateway/resources/colors.dart';
 import 'package:payment_gateway/screens/home_page/home_page.dart';
 import 'package:payment_gateway/simplifiers/sized_box.dart';
 import 'package:payment_gateway/theme/sizes.dart';
 import 'package:payment_gateway/utils/responsiveLayout.dart';
+import 'package:payment_gateway/utils/validators.dart';
 
 class ProductDetail extends StatefulWidget {
   static const String route = '/productDetail';
@@ -18,10 +24,12 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   PageController mediaController;
   int selectedMedia = 0;
-  @override
-  void initState() {
-    super.initState();
-  }
+  final _formKey = GlobalKey<FormState>();
+
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController address = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,20 +57,16 @@ class _ProductDetailState extends State<ProductDetail> {
         horizontal: 16,
         vertical: 16,
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            buildMediaSliderWidget(),
-            CustomSizedBox.h30,
-            buildDetailsWidget(),
-            CustomSizedBox.h30,
-            buildSpecWidget(),
-            CustomSizedBox.h30,
-            Container(
-              child: Container(),
-            ),
-          ],
-        ),
+      child: ListView(
+        children: [
+          buildMediaSliderWidget(),
+          CustomSizedBox.h30,
+          buildDetailsWidget(),
+          CustomSizedBox.h30,
+          buildSpecWidget(),
+          CustomSizedBox.h30,
+          buildMobileCheckoutWidget(),
+        ],
       ),
     );
   }
@@ -74,37 +78,243 @@ class _ProductDetailState extends State<ProductDetail> {
         horizontal: 16,
         vertical: 16,
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Column(
               children: [
+                buildMediaSliderWidget(),
+                CustomSizedBox.h30,
                 Expanded(
-                  flex: 3,
-                  child: buildMediaSliderWidget(),
-                ),
-                CustomSizedBox.w60,
-                Expanded(
-                  flex: 5,
-                  child: buildDetailsWidget(),
+                  child: ListView(
+                    children: [
+                      buildDetailsWidget(),
+                      buildSpecWidget(),
+                    ],
+                  ),
                 ),
               ],
             ),
-            Row(
+          ),
+          CustomSizedBox.w120,
+          Expanded(
+            flex: 8,
+            child: buildWebCheckoutWidget(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildWebCheckoutWidget() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
               children: [
-                Expanded(
-                  flex: 3,
-                  child: buildSpecWidget(),
+                TextFieldWidget(
+                  hintText: 'Full name',
+                  placeholder: 'ex: Mr. John',
+                  size: 16,
+                  initialValue: name.text,
+                  maxLength: 20,
+                  onChanged: (val) {
+                    name.text = val;
+                  },
+                  validator: (val) {
+                    if (val.isEmpty || val.length < 3) {
+                      return 'Enter a valid name';
+                    }
+                    return null;
+                  },
                 ),
-                Expanded(
-                  flex: 5,
-                  child: Container(),
+                CustomSizedBox.h30,
+                TextFieldWidget(
+                  hintText: 'Email',
+                  placeholder: 'ex: abcd@email.com',
+                  size: 16,
+                  textInputType: TextInputType.emailAddress,
+                  initialValue: email.text,
+                  onChanged: (val) {
+                    email.text = val;
+                  },
+                  validator: (val) {
+                    if (Validators.emailValidator(val)) {
+                      return 'Enter a valid email';
+                    }
+                    return null;
+                  },
                 ),
+                CustomSizedBox.h30,
+                TextFieldWidget(
+                  hintText: 'Phone',
+                  placeholder: 'ex: 9999999999',
+                  size: 16,
+                  textInputType: TextInputType.number,
+                  initialValue: phone.text,
+                  maxLength: 10,
+                  onChanged: (val) {
+                    phone.text = val;
+                  },
+                  validator: (val) {
+                    if (val.isEmpty || val.length < 10) {
+                      return 'Enter a valid phone number';
+                    }
+                    return null;
+                  },
+                ),
+                CustomSizedBox.h30,
+                TextFieldWidget(
+                  hintText: 'Address',
+                  placeholder:
+                      'ex: near abc school, 1st main, 2nd road, mg road, bangalore',
+                  size: 16,
+                  numberOfLine: 5,
+                  textInputType: TextInputType.streetAddress,
+                  initialValue: address.text,
+                  onChanged: (val) {
+                    address.text = val;
+                  },
+                  validator: (val) {
+                    if (val.isEmpty || val.length < 10) {
+                      return 'Enter a valid address';
+                    }
+                    return null;
+                  },
+                ),
+                CustomSizedBox.h30,
               ],
             ),
-          ],
-        ),
+          ),
+          ButtonWidget(
+            title: 'Buy',
+            onPressed: () async {
+              if (_formKey.currentState.validate()) {
+                if (kIsWeb) {
+                  await PaymentUtil.instance.makeWebPayment(
+                    PaymentModel(
+                      customerEmail: email.text,
+                      customerName: name.text,
+                      customerPhone: '91${phone.text}',
+                      orderAmount: '1',
+                      orderNote: 'Buying ${HomePage.selectedItem.name}',
+                      stage: PaymentMode.prod,
+                    ).toJsonString(),
+                  );
+                }
+              }
+            },
+            expanded: ResponsiveLayout.isSmallScreen(context) ? true : false,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildMobileCheckoutWidget() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFieldWidget(
+            hintText: 'Full name',
+            placeholder: 'ex: Mr. John',
+            size: 16,
+            initialValue: name.text,
+            maxLength: 20,
+            onChanged: (val) {
+              name.text = val;
+            },
+            validator: (val) {
+              if (val.isEmpty || val.length < 3) {
+                return 'Enter a valid name';
+              }
+              return null;
+            },
+          ),
+          CustomSizedBox.h30,
+          TextFieldWidget(
+            hintText: 'Email',
+            placeholder: 'ex: abcd@email.com',
+            size: 16,
+            textInputType: TextInputType.emailAddress,
+            initialValue: email.text,
+            onChanged: (val) {
+              email.text = val;
+            },
+            validator: (val) {
+              if (Validators.emailValidator(val)) {
+                return 'Enter a valid email';
+              }
+              return null;
+            },
+          ),
+          CustomSizedBox.h30,
+          TextFieldWidget(
+            hintText: 'Phone',
+            placeholder: 'ex: 9999999999',
+            size: 16,
+            textInputType: TextInputType.number,
+            initialValue: phone.text,
+            maxLength: 10,
+            onChanged: (val) {
+              phone.text = val;
+            },
+            validator: (val) {
+              if (val.isEmpty || val.length < 10) {
+                return 'Enter a valid phone number';
+              }
+              return null;
+            },
+          ),
+          CustomSizedBox.h30,
+          TextFieldWidget(
+            hintText: 'Address',
+            placeholder:
+                'ex: near abc school, 1st main, 2nd road, mg road, bangalore',
+            size: 16,
+            numberOfLine: 5,
+            textInputType: TextInputType.streetAddress,
+            initialValue: address.text,
+            onChanged: (val) {
+              address.text = val;
+            },
+            validator: (val) {
+              if (val.isEmpty || val.length < 10) {
+                return 'Enter a valid address';
+              }
+              return null;
+            },
+          ),
+          CustomSizedBox.h30,
+          Container(
+            padding: EdgeInsets.all(8),
+            child: ButtonWidget(
+              title: 'Buy',
+              onPressed: () async {
+                if (_formKey.currentState.validate()) {
+                  if (kIsWeb) {
+                    await PaymentUtil.instance.makeWebPayment(
+                      PaymentModel(
+                        customerEmail: email.text,
+                        customerName: name.text,
+                        customerPhone: '91${phone.text}',
+                        orderAmount: '1',
+                        orderNote: 'Buying ${HomePage.selectedItem.name}',
+                        stage: PaymentMode.prod,
+                      ).toJsonString(),
+                    );
+                  }
+                }
+              },
+              expanded: ResponsiveLayout.isSmallScreen(context) ? true : false,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -114,7 +324,7 @@ class _ProductDetailState extends State<ProductDetail> {
       children: [
         ImageWidget(
           imageLocation: HomePage.selectedItem.media.images[selectedMedia],
-          height: MediaQuery.of(context).size.height * 0.4,
+          height: MediaQuery.of(context).size.height * 0.3,
           boxFit: BoxFit.contain,
         ),
         CustomSizedBox.h18,
@@ -213,9 +423,23 @@ class _ProductDetailState extends State<ProductDetail> {
           (index) => DataRow(
             cells: [
               DataCell(
-                LabelWidget(
-                  HomePage.selectedItem.spec[index].title,
-                  color: Colors.white54,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Container(
+                        width: 8,
+                        height: 8,
+                        color: Colors.white,
+                      ),
+                    ),
+                    CustomSizedBox.w12,
+                    LabelWidget(
+                      HomePage.selectedItem.spec[index].title,
+                      color: Colors.white54,
+                    ),
+                  ],
                 ),
               ),
               DataCell(
@@ -269,46 +493,6 @@ class _ProductDetailState extends State<ProductDetail> {
           color: Colors.white70,
         ),
         CustomSizedBox.h30,
-        DataTable(
-          columnSpacing: 16.0,
-          rows: List.generate(
-            HomePage.selectedItem.features.length,
-            (index) => DataRow(
-              cells: [
-                DataCell(
-                  ImageWidget(
-                    imageLocation: HomePage.selectedItem.features[index].image,
-                    width: 100,
-                    height: 50,
-                  ),
-                ),
-                DataCell(
-                  LabelWidget(
-                    HomePage.selectedItem.features[index].title,
-                    color: Colors.white54,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          columns: [
-            DataColumn(
-              label: LabelWidget(
-                'Features',
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                size: TextSize.subTitle1,
-              ),
-            ),
-            DataColumn(
-              label: LabelWidget(
-                '',
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
       ],
     );
   }
