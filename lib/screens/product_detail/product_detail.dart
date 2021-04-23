@@ -58,7 +58,9 @@ class _ProductDetailState extends State<ProductDetail> {
             CustomSizedBox.h30,
             buildSpecWidget(),
             CustomSizedBox.h30,
-            Container(),
+            Container(
+              child: Container(),
+            ),
           ],
         ),
       ),
