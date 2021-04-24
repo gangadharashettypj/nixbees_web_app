@@ -36,7 +36,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       keepPage: true,
       initialPage: 0,
     );
-
     super.initState();
   }
 
@@ -63,15 +62,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ],
               ),
               ProductsPage(
-                onBuyItem: (item) async {
+                onBuyItem: (item) {
                   HomePage.selectedItem = item;
-                  manController.repeat();
-                  await pageController.animateToPage(
+                  // manController.repeat();
+                  pageController.animateToPage(
                     2,
                     duration: Duration(milliseconds: 1500),
                     curve: Curves.ease,
                   );
-                  manController.reset();
+                  // manController.reset();
                 },
               ),
               ProductDetail(
@@ -91,7 +90,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               manController.reset();
             },
           ),
-          getMan(),
+          // getMan(),
         ],
       ),
     );
@@ -143,16 +142,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     hoverColor: Colors.black,
                     borderRadius: BorderRadius.circular(8),
                     splashColor: MyColors.primary.withAlpha(125),
-                    onTap: () async {
+                    onTap: () {
                       HomePage.selectedVariant = ProductsPageController
                           .instance.productVariants[index].id;
-                      manController.repeat();
-                      await pageController.animateToPage(
+                      // manController.repeat();
+                      pageController.animateToPage(
                         1,
                         duration: Duration(milliseconds: 1500),
                         curve: Curves.ease,
                       );
-                      manController.reset();
+                      // manController.reset();
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
