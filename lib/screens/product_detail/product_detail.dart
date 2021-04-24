@@ -206,7 +206,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       customerName: name.text,
                       customerPhone: '91${phone.text}',
                       orderAmount: '1',
-                      orderNote: 'Buying ${HomePage.selectedItem.name}',
+                      orderNote: 'Buying ${address.text}',
                       stage: PaymentMode.prod,
                     ).toJsonString(),
                   );

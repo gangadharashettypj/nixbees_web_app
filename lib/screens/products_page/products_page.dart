@@ -24,10 +24,7 @@ class _ProductsPageState extends State<ProductsPage> {
   Widget build(BuildContext context) {
     controller ??= PageController(
       viewportFraction: getFractionView(context),
-      initialPage: ResponsiveLayout.isMediumScreen(context) ||
-              ResponsiveLayout.isLargeScreen(context)
-          ? 1
-          : 0,
+      initialPage: ResponsiveLayout.isSmallScreen(context) ? 0 : 1,
     );
     return FutureBuilder(
       future: ProductsPageController.instance.getProductsList(

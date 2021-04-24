@@ -91,7 +91,6 @@ class ProductItemWidget extends StatelessWidget {
       expanded: false,
       color: MyColors.primary,
       backgroundColor: MyColors.primaryDark,
-      depth: 2,
     );
   }
 
@@ -101,7 +100,7 @@ class ProductItemWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: 30),
+          margin: EdgeInsets.only(bottom: 18),
           child: buildCard(),
         ),
         buildBuyButton(context),

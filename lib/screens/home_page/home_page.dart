@@ -17,7 +17,49 @@ import 'package:payment_gateway/theme/sizes.dart';
 class HomePage extends StatefulWidget {
   static const String route = '/homePage';
   static String selectedVariant;
-  static ProductItem selectedItem;
+  static ProductItem selectedItem = ProductItem.fromJson({
+    "description":
+        "ddddddd ddddddd ddddddd ddddddd ddddddd ddddddd ddddddd ddddddd ddddddd ddddddd ",
+    "features": [
+      {
+        "image":
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcFko-JQM8BAwOuNnpxNdzmavnWs-kuCfIiue8zNbfepHegDucjXmA48sZoWbPMEmeROTvtog&usqp=CAc",
+        "title": "feature 1"
+      },
+      {
+        "image":
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcFko-JQM8BAwOuNnpxNdzmavnWs-kuCfIiue8zNbfepHegDucjXmA48sZoWbPMEmeROTvtog&usqp=CAc",
+        "title": "feature 2"
+      },
+      {
+        "image":
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcFko-JQM8BAwOuNnpxNdzmavnWs-kuCfIiue8zNbfepHegDucjXmA48sZoWbPMEmeROTvtog&usqp=CAc",
+        "title": "feature 3"
+      }
+    ],
+    "id": "PROD_0001",
+    "media": {
+      "images": [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcFko-JQM8BAwOuNnpxNdzmavnWs-kuCfIiue8zNbfepHegDucjXmA48sZoWbPMEmeROTvtog&usqp=CAc",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcFko-JQM8BAwOuNnpxNdzmavnWs-kuCfIiue8zNbfepHegDucjXmA48sZoWbPMEmeROTvtog&usqp=CAc",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcFko-JQM8BAwOuNnpxNdzmavnWs-kuCfIiue8zNbfepHegDucjXmA48sZoWbPMEmeROTvtog&usqp=CAc"
+      ],
+      "videos": [
+        "https://www.youtube.com/watch?v=AioWKje5H4I",
+        "https://www.youtube.com/watch?v=AioWKje5H4I",
+        "https://www.youtube.com/watch?v=AioWKje5H4I"
+      ]
+    },
+    "name": "Nixbees Aura",
+    "offerPrice": 499,
+    "price": 599,
+    "spec": [
+      {"desc": "spec desc 1", "title": "spec 1"},
+      {"desc": "spec desc 2", "title": "spec 2"}
+    ],
+    "url":
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcFko-JQM8BAwOuNnpxNdzmavnWs-kuCfIiue8zNbfepHegDucjXmA48sZoWbPMEmeROTvtog&usqp=CAc",
+  });
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -34,7 +76,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
     pageController = PageController(
       keepPage: true,
-      initialPage: 0,
+      initialPage: 2,
     );
 
     super.initState();
@@ -63,13 +105,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ],
               ),
               ProductsPage(
-                onBuyItem: (item) {
+                onBuyItem: (item) async {
                   HomePage.selectedItem = item;
-                  pageController.animateToPage(
+                  manController.repeat();
+                  await pageController.animateToPage(
                     2,
-                    duration: Duration(milliseconds: 500),
+                    duration: Duration(milliseconds: 1500),
                     curve: Curves.ease,
                   );
+                  manController.reset();
                 },
               ),
               ProductDetail(
@@ -89,7 +133,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               manController.reset();
             },
           ),
-          // getMan(),
+          getMan(),
         ],
       ),
     );
@@ -141,14 +185,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     hoverColor: Colors.black,
                     borderRadius: BorderRadius.circular(8),
                     splashColor: MyColors.primary.withAlpha(125),
-                    onTap: () {
+                    onTap: () async {
                       HomePage.selectedVariant = ProductsPageController
                           .instance.productVariants[index].id;
-                      pageController.animateToPage(
+                      manController.repeat();
+                      await pageController.animateToPage(
                         1,
-                        duration: Duration(milliseconds: 500),
+                        duration: Duration(milliseconds: 1500),
                         curve: Curves.ease,
                       );
+                      manController.reset();
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
