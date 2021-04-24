@@ -90,7 +90,6 @@ class ProductItemWidget extends StatelessWidget {
       onPressed: onBuy,
       expanded: false,
       color: MyColors.primary,
-      backgroundColor: MyColors.primaryDark,
     );
   }
 
