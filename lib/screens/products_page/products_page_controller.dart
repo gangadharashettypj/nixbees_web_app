@@ -21,6 +21,7 @@ class ProductsPageController {
     data.forEach((key, value) {
       products.add(ProductItem.fromJson(value));
     });
+    print(products);
     return products;
   }
 

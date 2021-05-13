@@ -121,6 +121,13 @@ class _ProductDetailState extends State<ProductDetail> {
             child: ListView(
               shrinkWrap: true,
               children: [
+                LabelWidget(
+                  'Fill the form to buy',
+                  fontWeight: FontWeight.bold,
+                  size: 30,
+                  color: Colors.white,
+                ),
+                CustomSizedBox.h30,
                 TextFieldWidget(
                   hintText: 'Full name',
                   placeholder: 'ex: Mr. John',
@@ -175,8 +182,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 CustomSizedBox.h30,
                 TextFieldWidget(
                   hintText: 'Address',
-                  placeholder:
-                      'ex: near abc school, 1st main, 2nd road, mg road, bangalore',
+                  placeholder: 'ex: write the address to be delivered',
                   size: 16,
                   numberOfLine: 5,
                   textInputType: TextInputType.streetAddress,
@@ -196,7 +202,7 @@ class _ProductDetailState extends State<ProductDetail> {
             ),
           ),
           ButtonWidget(
-            title: 'Buy',
+            title: 'Buy for ₹ ${HomePage.selectedItem.offerPrice}',
             onPressed: () async {
               if (_formKey.currentState.validate()) {
                 if (kIsWeb) {
@@ -225,6 +231,13 @@ class _ProductDetailState extends State<ProductDetail> {
       key: _formKey,
       child: Column(
         children: [
+          LabelWidget(
+            'Fill the form to buy',
+            fontWeight: FontWeight.bold,
+            size: 30,
+            color: Colors.white,
+          ),
+          CustomSizedBox.h30,
           TextFieldWidget(
             hintText: 'Full name',
             placeholder: 'ex: Mr. John',
@@ -279,8 +292,7 @@ class _ProductDetailState extends State<ProductDetail> {
           CustomSizedBox.h30,
           TextFieldWidget(
             hintText: 'Address',
-            placeholder:
-                'ex: near abc school, 1st main, 2nd road, mg road, bangalore',
+            placeholder: 'ex: write the address to be delivered',
             size: 16,
             numberOfLine: 5,
             textInputType: TextInputType.streetAddress,

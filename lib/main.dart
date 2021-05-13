@@ -67,17 +67,3 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 }
-
-/*
- if (kIsWeb)
-                  PaymentUtil.instance.makeWebPayment(
-                    PaymentModel(
-                      customerEmail: 'gs@gmail.com',
-                      customerName: 'Gangadhara',
-                      customerPhone: '919916548851',
-                      orderAmount: '1',
-                      orderNote: 'Note note',
-                      stage: PaymentMode.prod,
-                    ).toJsonString(),
-                  );
- */
