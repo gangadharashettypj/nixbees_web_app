@@ -198,11 +198,16 @@ class _ProductDetailState extends State<ProductDetail> {
                   },
                 ),
                 CustomSizedBox.h30,
+                LabelWidget(
+                  '* 60₹ extra for delivery charges',
+                  color: Colors.white,
+                ),
+                CustomSizedBox.h30,
               ],
             ),
           ),
           ButtonWidget(
-            title: 'Buy for ₹ ${HomePage.selectedItem.offerPrice}',
+            title: 'Buy for ₹ ${HomePage.selectedItem.offerPrice + 60}',
             onPressed: () async {
               if (_formKey.currentState.validate()) {
                 if (kIsWeb) {
@@ -211,8 +216,9 @@ class _ProductDetailState extends State<ProductDetail> {
                       customerEmail: email.text,
                       customerName: name.text,
                       customerPhone: '91${phone.text}',
-                      orderAmount: '1',
-                      orderNote: 'Buying ${address.text}',
+                      orderAmount:
+                          (HomePage.selectedItem.offerPrice + 60).toString(),
+                      orderNote: address.text ?? '',
                       stage: PaymentMode.prod,
                     ).toJsonString(),
                   );
