@@ -12,6 +12,8 @@ class LabelWidget extends StatelessWidget {
   final FontWeight fontWeight;
   final TextAlign textAlign;
   final TextDecoration decoration;
+  final int maxLines;
+  final TextOverflow overflow;
   LabelWidget(
     this.text, {
     this.size,
@@ -20,6 +22,8 @@ class LabelWidget extends StatelessWidget {
     this.fontWeight,
     this.textAlign,
     this.decoration,
+    this.maxLines,
+    this.overflow,
   });
   @override
   Widget build(BuildContext context) {
@@ -34,6 +38,8 @@ class LabelWidget extends StatelessWidget {
           decoration: decoration,
         ),
         textAlign: textAlign,
+        maxLines: maxLines,
+        overflow: overflow,
       ),
     );
   }

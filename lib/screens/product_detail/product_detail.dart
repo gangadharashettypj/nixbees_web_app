@@ -104,7 +104,7 @@ class _ProductDetailState extends State<ProductDetail> {
           ),
           CustomSizedBox.w120,
           Expanded(
-            flex: 8,
+            flex: 4,
             child: buildWebCheckoutWidget(),
           ),
         ],

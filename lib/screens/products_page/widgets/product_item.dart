@@ -19,7 +19,6 @@ class ProductItemWidget extends StatelessWidget {
   Widget buildCard() {
     return Container(
       width: 300,
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
       margin: EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -37,46 +36,57 @@ class ProductItemWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: ImageWidget(
-              imageLocation: item.url,
-              height: 150,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Center(
+              child: ImageWidget(
+                imageLocation: item.url,
+              ),
             ),
           ),
           CustomSizedBox.h30,
-          Center(
-            child: LabelWidget(
-              item.name,
-              size: TextSize.subTitle1,
-              color: Colors.white,
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+            child: Column(
+              children: [
+                Center(
+                  child: LabelWidget(
+                    item.name,
+                    size: TextSize.subTitle1,
+                    color: Colors.white,
+                  ),
+                ),
+                CustomSizedBox.h12,
+                LabelWidget(
+                  item.description,
+                  size: TextSize.h6,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                CustomSizedBox.h24,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(),
+                    ),
+                    LabelWidget(
+                      '₹ ${item.price ?? ''}/-',
+                      size: TextSize.h6,
+                      color: Colors.white54,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.lineThrough,
+                    ),
+                    CustomSizedBox.w12,
+                    LabelWidget(
+                      '₹ ${item.offerPrice ?? ''}/-',
+                      size: TextSize.subTitle,
+                      color: MyColors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ),
-          CustomSizedBox.h12,
-          LabelWidget(
-            item.description,
-            size: TextSize.h6,
-          ),
-          CustomSizedBox.h24,
-          Row(
-            children: [
-              Expanded(
-                child: Container(),
-              ),
-              LabelWidget(
-                '₹ ${item.price ?? ''}/-',
-                size: TextSize.h6,
-                color: Colors.white54,
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.lineThrough,
-              ),
-              CustomSizedBox.w12,
-              LabelWidget(
-                '₹ ${item.offerPrice ?? ''}/-',
-                size: TextSize.subTitle,
-                color: MyColors.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ],
           ),
           CustomSizedBox.h18,
         ],
