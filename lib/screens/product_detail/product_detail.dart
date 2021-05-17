@@ -30,6 +30,7 @@ class _ProductDetailState extends State<ProductDetail> {
   PageController mediaController;
   int selectedMedia = 0;
   final _formKey = GlobalKey<FormState>();
+  int numberOfProduct = 1;
 
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -136,6 +137,7 @@ class _ProductDetailState extends State<ProductDetail> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
+                flex: 3,
                 child: Column(
                   children: [
                     TextFieldWidget(
@@ -196,6 +198,7 @@ class _ProductDetailState extends State<ProductDetail> {
               ),
               CustomSizedBox.w30,
               Expanded(
+                flex: 5,
                 child: Column(
                   children: [
                     TextFieldWidget(
@@ -215,35 +218,115 @@ class _ProductDetailState extends State<ProductDetail> {
                         return null;
                       },
                     ),
-                    CustomSizedBox.h40,
-                    LabelWidget(
-                      '* 60₹ for delivery charges',
-                      color: Colors.white,
-                    ),
-                    CustomSizedBox.h18,
-                    ButtonWidget(
-                      title: 'Buy @ ₹${HomePage.selectedItem.offerPrice + 60}',
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          if (kIsWeb) {
-                            await PaymentUtil.instance.makeWebPayment(
-                              PaymentModel(
-                                customerEmail: email.text,
-                                customerName: name.text,
-                                customerPhone: '91${phone.text}',
-                                orderAmount:
-                                    (HomePage.selectedItem.offerPrice + 60)
-                                        .toString(),
-                                orderNote: address.text ?? '',
-                                stage: PaymentMode.prod,
-                              ).toJsonString(),
-                            );
-                          }
-                        }
-                      },
-                      expanded: ResponsiveLayout.isSmallScreen(context)
-                          ? true
-                          : false,
+                    CustomSizedBox.h30,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.remove,
+                                    color: numberOfProduct == 1
+                                        ? Colors.white54
+                                        : MyColors.primary,
+                                  ),
+                                  onPressed: () {
+                                    if (numberOfProduct <= 1) {
+                                      return;
+                                    }
+                                    setState(() {
+                                      numberOfProduct--;
+                                    });
+                                  },
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: numberOfProduct == 1
+                                        ? Colors.white54
+                                        : MyColors.primary,
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                              ),
+                              CustomSizedBox.w30,
+                              LabelWidget(
+                                '${numberOfProduct ?? ''}',
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                size: 16,
+                              ),
+                              CustomSizedBox.w30,
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: numberOfProduct == 5
+                                        ? Colors.white54
+                                        : MyColors.primary,
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.add,
+                                    color: numberOfProduct == 5
+                                        ? Colors.white54
+                                        : MyColors.primary,
+                                  ),
+                                  onPressed: () {
+                                    if (numberOfProduct >= 5) {
+                                      return;
+                                    }
+                                    setState(() {
+                                      numberOfProduct++;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            LabelWidget(
+                              '* 60₹ for delivery charges',
+                              color: Colors.white,
+                            ),
+                            CustomSizedBox.h18,
+                            ButtonWidget(
+                              title:
+                                  'Buy @ ₹${(HomePage.selectedItem.offerPrice * numberOfProduct) + 60}',
+                              onPressed: () async {
+                                if (_formKey.currentState.validate()) {
+                                  if (kIsWeb) {
+                                    await PaymentUtil.instance.makeWebPayment(
+                                      PaymentModel(
+                                        customerEmail: email.text,
+                                        customerName: name.text,
+                                        customerPhone: '91${phone.text}',
+                                        orderAmount:
+                                            ((HomePage.selectedItem.offerPrice *
+                                                        numberOfProduct) +
+                                                    60)
+                                                .toString(),
+                                        orderNote: address.text ?? '',
+                                        stage: PaymentMode.prod,
+                                      ).toJsonString(),
+                                    );
+                                  }
+                                }
+                              },
+                              expanded: ResponsiveLayout.isSmallScreen(context)
+                                  ? true
+                                  : false,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -339,6 +422,74 @@ class _ProductDetailState extends State<ProductDetail> {
             },
           ),
           CustomSizedBox.h30,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: IconButton(
+                  icon: Icon(
+                    Icons.remove,
+                    color: numberOfProduct == 1
+                        ? Colors.white54
+                        : MyColors.primary,
+                  ),
+                  onPressed: () {
+                    if (numberOfProduct <= 1) {
+                      return;
+                    }
+                    setState(() {
+                      numberOfProduct--;
+                    });
+                  },
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: numberOfProduct == 1
+                        ? Colors.white54
+                        : MyColors.primary,
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+              ),
+              CustomSizedBox.w30,
+              LabelWidget(
+                '${numberOfProduct ?? ''}',
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                size: 16,
+              ),
+              CustomSizedBox.w30,
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: numberOfProduct == 5
+                        ? Colors.white54
+                        : MyColors.primary,
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.add,
+                    color: numberOfProduct == 5
+                        ? Colors.white54
+                        : MyColors.primary,
+                  ),
+                  onPressed: () {
+                    if (numberOfProduct >= 5) {
+                      return;
+                    }
+                    setState(() {
+                      numberOfProduct++;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+          CustomSizedBox.h30,
           LabelWidget(
             '* 60₹ for delivery charges',
             color: Colors.white,
@@ -347,7 +498,8 @@ class _ProductDetailState extends State<ProductDetail> {
           Container(
             padding: EdgeInsets.all(8),
             child: ButtonWidget(
-              title: 'Buy @ ₹${HomePage.selectedItem.offerPrice + 60}',
+              title:
+                  'Buy @ ₹${(HomePage.selectedItem.offerPrice * numberOfProduct) + 60}',
               onPressed: () async {
                 if (_formKey.currentState.validate()) {
                   if (kIsWeb) {
@@ -356,8 +508,10 @@ class _ProductDetailState extends State<ProductDetail> {
                         customerEmail: email.text,
                         customerName: name.text,
                         customerPhone: '91${phone.text}',
-                        orderAmount:
-                            (HomePage.selectedItem.offerPrice + 60).toString(),
+                        orderAmount: ((HomePage.selectedItem.offerPrice *
+                                    numberOfProduct) +
+                                60)
+                            .toString(),
                         orderNote: 'Buying ${HomePage.selectedItem.name}',
                         stage: PaymentMode.prod,
                       ).toJsonString(),
