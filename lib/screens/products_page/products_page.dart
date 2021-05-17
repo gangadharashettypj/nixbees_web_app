@@ -82,41 +82,42 @@ class _ProductsPageState extends State<ProductsPage> {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: MyColors.primary,
+          if (ResponsiveLayout.isLargeScreen(context))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: MyColors.primary,
+                  ),
+                  onPressed: () {
+                    controller.previousPage(
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.ease,
+                    );
+                  },
                 ),
-                onPressed: () {
-                  controller.previousPage(
-                    duration: Duration(milliseconds: 400),
-                    curve: Curves.ease,
-                  );
-                },
-              ),
-              CustomSizedBox.w18,
-              LabelWidget(
-                '$currentProduct/${ProductsPageController.instance.products.length}',
-                color: Colors.white,
-              ),
-              CustomSizedBox.w18,
-              IconButton(
-                icon: Icon(
-                  Icons.arrow_forward_ios,
-                  color: MyColors.primary,
+                CustomSizedBox.w18,
+                LabelWidget(
+                  '$currentProduct/${ProductsPageController.instance.products.length}',
+                  color: Colors.white,
                 ),
-                onPressed: () {
-                  controller.nextPage(
-                    duration: Duration(milliseconds: 400),
-                    curve: Curves.ease,
-                  );
-                },
-              ),
-            ],
-          )
+                CustomSizedBox.w18,
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_forward_ios,
+                    color: MyColors.primary,
+                  ),
+                  onPressed: () {
+                    controller.nextPage(
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.ease,
+                    );
+                  },
+                ),
+              ],
+            )
         ],
       ),
     );

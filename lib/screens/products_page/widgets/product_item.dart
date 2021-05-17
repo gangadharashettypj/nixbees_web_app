@@ -44,9 +44,9 @@ class ProductItemWidget extends StatelessWidget {
               ),
             ),
           ),
-          CustomSizedBox.h30,
+          CustomSizedBox.h12,
           Container(
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
             child: Column(
               children: [
                 Center(
@@ -56,14 +56,14 @@ class ProductItemWidget extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                CustomSizedBox.h12,
+                CustomSizedBox.h6,
                 LabelWidget(
                   item.description,
                   size: TextSize.h6,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
-                CustomSizedBox.h24,
+                CustomSizedBox.h12,
                 Row(
                   children: [
                     Expanded(
