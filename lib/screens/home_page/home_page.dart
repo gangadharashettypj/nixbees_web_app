@@ -61,26 +61,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   buildScreen(),
                 ],
               ),
-              ProductsPage(
-                onBuyItem: (item) {
-                  HomePage.selectedItem = item;
-                  // manController.repeat();
-                  pageController.animateToPage(
-                    2,
-                    duration: Duration(milliseconds: 1500),
-                    curve: Curves.ease,
-                  );
-                  // manController.reset();
-                },
+              Container(
+                margin: EdgeInsets.only(top: 80),
+                child: ProductsPage(
+                  onBuyItem: (item) {
+                    HomePage.selectedItem = item;
+                    // manController.repeat();
+                    pageController.animateToPage(
+                      2,
+                      duration: Duration(milliseconds: 1500),
+                      curve: Curves.ease,
+                    );
+                    // manController.reset();
+                  },
+                ),
               ),
-              ProductDetail(
-                onDone: () {
-                  pageController.jumpToPage(0);
-                },
+              Container(
+                margin: EdgeInsets.only(top: 80),
+                child: ProductDetail(
+                  onDone: () {
+                    pageController.jumpToPage(0);
+                  },
+                ),
               ),
             ],
           ),
           TitleBar(
+            pageController: pageController,
             onTap: () async {
               manController.repeat(reverse: true);
               pageController.jumpToPage(
@@ -90,7 +97,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               manController.reset();
             },
           ),
-          // getMan(),
         ],
       ),
     );
