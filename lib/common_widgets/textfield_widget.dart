@@ -2,6 +2,7 @@
  * @Author GS
  */
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:payment_gateway/resources/colors.dart';
 
@@ -100,6 +101,9 @@ class TextFieldWidget extends StatelessWidget {
               ),
               floatingLabelBehavior: FloatingLabelBehavior.never,
               alignLabelWithHint: alignLabelWithHint,
+              counterStyle: TextStyle(
+                height: double.minPositive,
+              ),
             ),
             maxLines: numberOfLine,
             style: TextStyle(

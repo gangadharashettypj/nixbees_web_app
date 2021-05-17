@@ -63,8 +63,9 @@ class _ProductDetailState extends State<ProductDetail> {
         vertical: 16,
       ),
       child: ListView(
+        cacheExtent: 1000,
         children: [
-          buildMediaSliderWidget(),
+          buildMobileMediaSliderWidget(),
           CustomSizedBox.h30,
           buildDetailsWidget(),
           CustomSizedBox.h30,
@@ -86,26 +87,33 @@ class _ProductDetailState extends State<ProductDetail> {
       child: Row(
         children: [
           Expanded(
-            flex: 4,
+            flex: 1,
             child: Column(
               children: [
-                buildMediaSliderWidget(),
+                buildWebMediaSliderWidget(),
                 CustomSizedBox.h30,
+                buildDetailsWidget(),
+              ],
+            ),
+          ),
+          CustomSizedBox.w30,
+          Expanded(
+            flex: 1,
+            child: Column(
+              children: [
                 Expanded(
-                  child: ListView(
-                    children: [
-                      buildDetailsWidget(),
-                      buildSpecWidget(),
-                    ],
+                  child: SingleChildScrollView(
+                    child: buildSpecWidget(),
+                  ),
+                ),
+                CustomSizedBox.h12,
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: buildWebCheckoutWidget(),
                   ),
                 ),
               ],
             ),
-          ),
-          CustomSizedBox.w120,
-          Expanded(
-            flex: 4,
-            child: buildWebCheckoutWidget(),
           ),
         ],
       ),
@@ -117,115 +125,130 @@ class _ProductDetailState extends State<ProductDetail> {
       key: _formKey,
       child: Column(
         children: [
-          Expanded(
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                LabelWidget(
-                  'Fill the form to buy',
-                  fontWeight: FontWeight.bold,
-                  size: 30,
-                  color: Colors.white,
-                ),
-                CustomSizedBox.h30,
-                TextFieldWidget(
-                  hintText: 'Full name',
-                  placeholder: 'ex: Mr. John',
-                  size: 16,
-                  initialValue: name.text,
-                  maxLength: 20,
-                  onChanged: (val) {
-                    name.text = val;
-                  },
-                  validator: (val) {
-                    if (val.isEmpty || val.length < 3) {
-                      return 'Enter a valid name';
-                    }
-                    return null;
-                  },
-                ),
-                CustomSizedBox.h30,
-                TextFieldWidget(
-                  hintText: 'Email',
-                  placeholder: 'ex: abcd@email.com',
-                  size: 16,
-                  textInputType: TextInputType.emailAddress,
-                  initialValue: email.text,
-                  onChanged: (val) {
-                    email.text = val;
-                  },
-                  validator: (val) {
-                    if (Validators.emailValidator(val)) {
-                      return 'Enter a valid email';
-                    }
-                    return null;
-                  },
-                ),
-                CustomSizedBox.h30,
-                TextFieldWidget(
-                  hintText: 'Phone',
-                  placeholder: 'ex: 9999999999',
-                  size: 16,
-                  textInputType: TextInputType.number,
-                  initialValue: phone.text,
-                  maxLength: 10,
-                  onChanged: (val) {
-                    phone.text = val;
-                  },
-                  validator: (val) {
-                    if (val.isEmpty || val.length < 10) {
-                      return 'Enter a valid phone number';
-                    }
-                    return null;
-                  },
-                ),
-                CustomSizedBox.h30,
-                TextFieldWidget(
-                  hintText: 'Address',
-                  placeholder: 'ex: write the address to be delivered',
-                  size: 16,
-                  numberOfLine: 5,
-                  textInputType: TextInputType.streetAddress,
-                  initialValue: address.text,
-                  onChanged: (val) {
-                    address.text = val;
-                  },
-                  validator: (val) {
-                    if (val.isEmpty || val.length < 10) {
-                      return 'Enter a valid address';
-                    }
-                    return null;
-                  },
-                ),
-                CustomSizedBox.h30,
-                LabelWidget(
-                  '* 60₹ extra for delivery charges',
-                  color: Colors.white,
-                ),
-                CustomSizedBox.h30,
-              ],
-            ),
+          LabelWidget(
+            'Fill the form to buy',
+            fontWeight: FontWeight.bold,
+            size: 30,
+            color: Colors.white,
           ),
-          ButtonWidget(
-            title: 'Buy for ₹ ${HomePage.selectedItem.offerPrice + 60}',
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                if (kIsWeb) {
-                  await PaymentUtil.instance.makeWebPayment(
-                    PaymentModel(
-                      customerEmail: email.text,
-                      customerName: name.text,
-                      customerPhone: '91${phone.text}',
-                      orderAmount:
-                          (HomePage.selectedItem.offerPrice + 60).toString(),
-                      orderNote: address.text ?? '',
-                      stage: PaymentMode.prod,
-                    ).toJsonString(),
-                  );
-                }
-              }
-            },
-            expanded: ResponsiveLayout.isSmallScreen(context) ? true : false,
+          CustomSizedBox.h30,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    TextFieldWidget(
+                      hintText: 'Full name',
+                      placeholder: 'ex: Mr. John',
+                      size: 16,
+                      initialValue: name.text,
+                      counterText: '',
+                      maxLength: 20,
+                      onChanged: (val) {
+                        name.text = val;
+                      },
+                      validator: (val) {
+                        if (val.isEmpty || val.length < 3) {
+                          return 'Enter a valid name';
+                        }
+                        return null;
+                      },
+                    ),
+                    CustomSizedBox.h30,
+                    TextFieldWidget(
+                      hintText: 'Email',
+                      placeholder: 'ex: abcd@email.com',
+                      size: 16,
+                      textInputType: TextInputType.emailAddress,
+                      initialValue: email.text,
+                      onChanged: (val) {
+                        email.text = val;
+                      },
+                      validator: (val) {
+                        if (Validators.emailValidator(val)) {
+                          return 'Enter a valid email';
+                        }
+                        return null;
+                      },
+                    ),
+                    CustomSizedBox.h30,
+                    TextFieldWidget(
+                      hintText: 'Phone',
+                      placeholder: 'ex: 9999999999',
+                      size: 16,
+                      textInputType: TextInputType.number,
+                      initialValue: phone.text,
+                      maxLength: 10,
+                      counterText: '',
+                      onChanged: (val) {
+                        phone.text = val;
+                      },
+                      validator: (val) {
+                        if (val.isEmpty || val.length < 10) {
+                          return 'Enter a valid phone number';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              CustomSizedBox.w30,
+              Expanded(
+                child: Column(
+                  children: [
+                    TextFieldWidget(
+                      hintText: 'Address',
+                      placeholder: 'ex: write the address to be delivered',
+                      size: 16,
+                      numberOfLine: 3,
+                      textInputType: TextInputType.streetAddress,
+                      initialValue: address.text,
+                      onChanged: (val) {
+                        address.text = val;
+                      },
+                      validator: (val) {
+                        if (val.isEmpty || val.length < 10) {
+                          return 'Enter a valid address';
+                        }
+                        return null;
+                      },
+                    ),
+                    CustomSizedBox.h40,
+                    LabelWidget(
+                      '* 60₹ for delivery charges',
+                      color: Colors.white,
+                    ),
+                    CustomSizedBox.h18,
+                    ButtonWidget(
+                      title: 'Buy @ ₹${HomePage.selectedItem.offerPrice + 60}',
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          if (kIsWeb) {
+                            await PaymentUtil.instance.makeWebPayment(
+                              PaymentModel(
+                                customerEmail: email.text,
+                                customerName: name.text,
+                                customerPhone: '91${phone.text}',
+                                orderAmount:
+                                    (HomePage.selectedItem.offerPrice + 60)
+                                        .toString(),
+                                orderNote: address.text ?? '',
+                                stage: PaymentMode.prod,
+                              ).toJsonString(),
+                            );
+                          }
+                        }
+                      },
+                      expanded: ResponsiveLayout.isSmallScreen(context)
+                          ? true
+                          : false,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -248,6 +271,7 @@ class _ProductDetailState extends State<ProductDetail> {
             hintText: 'Full name',
             placeholder: 'ex: Mr. John',
             size: 16,
+            counterText: '',
             initialValue: name.text,
             maxLength: 20,
             onChanged: (val) {
@@ -282,6 +306,7 @@ class _ProductDetailState extends State<ProductDetail> {
             hintText: 'Phone',
             placeholder: 'ex: 9999999999',
             size: 16,
+            counterText: '',
             textInputType: TextInputType.number,
             initialValue: phone.text,
             maxLength: 10,
@@ -300,7 +325,7 @@ class _ProductDetailState extends State<ProductDetail> {
             hintText: 'Address',
             placeholder: 'ex: write the address to be delivered',
             size: 16,
-            numberOfLine: 5,
+            numberOfLine: 3,
             textInputType: TextInputType.streetAddress,
             initialValue: address.text,
             onChanged: (val) {
@@ -314,10 +339,15 @@ class _ProductDetailState extends State<ProductDetail> {
             },
           ),
           CustomSizedBox.h30,
+          LabelWidget(
+            '* 60₹ for delivery charges',
+            color: Colors.white,
+          ),
+          CustomSizedBox.h12,
           Container(
             padding: EdgeInsets.all(8),
             child: ButtonWidget(
-              title: 'Buy',
+              title: 'Buy @ ₹${HomePage.selectedItem.offerPrice + 60}',
               onPressed: () async {
                 if (_formKey.currentState.validate()) {
                   if (kIsWeb) {
@@ -326,7 +356,8 @@ class _ProductDetailState extends State<ProductDetail> {
                         customerEmail: email.text,
                         customerName: name.text,
                         customerPhone: '91${phone.text}',
-                        orderAmount: '1',
+                        orderAmount:
+                            (HomePage.selectedItem.offerPrice + 60).toString(),
                         orderNote: 'Buying ${HomePage.selectedItem.name}',
                         stage: PaymentMode.prod,
                       ).toJsonString(),
@@ -343,37 +374,92 @@ class _ProductDetailState extends State<ProductDetail> {
     );
   }
 
-  Widget buildMediaSliderWidget() {
+  Widget buildWebMediaSliderWidget() {
+    return Expanded(
+      child: Column(
+        children: [
+          Expanded(
+            child: ImageWidget(
+              imageLocation: HomePage.selectedItem.media.images[selectedMedia],
+            ),
+          ),
+          CustomSizedBox.h18,
+          Container(
+            height: 80,
+            child: Row(
+              children: [
+                IconWidget(
+                  icon: Icons.chevron_left_rounded,
+                  color: MyColors.primary,
+                  backgroundColor: Colors.transparent,
+                  depth: 0,
+                ),
+                CustomSizedBox.w12,
+                Expanded(
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedMedia = index;
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(4),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: selectedMedia == index
+                                    ? MyColors.primary
+                                    : Colors.black,
+                                width: 2,
+                              ),
+                            ),
+                            child: ImageWidget(
+                              imageLocation:
+                                  HomePage.selectedItem.media.images[index],
+                            ),
+                            padding: EdgeInsets.all(4),
+                          ),
+                        ),
+                      );
+                    },
+                    itemCount: HomePage.selectedItem.media.images.length,
+                  ),
+                ),
+                CustomSizedBox.w12,
+                IconWidget(
+                  icon: Icons.chevron_right_rounded,
+                  color: MyColors.primary,
+                  backgroundColor: Colors.transparent,
+                  depth: 0,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildMobileMediaSliderWidget() {
     return Column(
       children: [
         ImageWidget(
           imageLocation: HomePage.selectedItem.media.images[selectedMedia],
-          height: MediaQuery.of(context).size.height * 0.3,
           boxFit: BoxFit.contain,
         ),
         CustomSizedBox.h18,
         Container(
           height: 80,
-          decoration: BoxDecoration(
-            border: Border.all(
-              width: 2,
-              color: Colors.white,
-            ),
-          ),
           child: Row(
             children: [
               IconWidget(
                 icon: Icons.chevron_left_rounded,
                 color: MyColors.primary,
                 backgroundColor: Colors.transparent,
-                // onTap: () {
-                //   setState(() {
-                //     selectedMedia--;
-                //     if (selectedMedia < 0) {
-                //       selectedMedia = 0;
-                //     }
-                //   });
-                // },
                 depth: 0,
               ),
               CustomSizedBox.w12,
@@ -389,21 +475,20 @@ class _ProductDetailState extends State<ProductDetail> {
                         });
                       },
                       child: Container(
-                        height: 100,
-                        margin: EdgeInsets.all(8),
-                        child: Stack(
-                          children: [
-                            Container(
+                        height: 80,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
                               color: selectedMedia == index
                                   ? MyColors.primary
-                                  : null,
-                              child: ImageWidget(
-                                imageLocation:
-                                    HomePage.selectedItem.media.images[index],
-                              ),
-                              padding: EdgeInsets.all(4),
+                                  : Colors.black,
+                              width: 2,
                             ),
-                          ],
+                          ),
+                          child: ImageWidget(
+                            imageLocation:
+                                HomePage.selectedItem.media.images[index],
+                          ),
                         ),
                       ),
                     );
@@ -506,7 +591,7 @@ class _ProductDetailState extends State<ProductDetail> {
           child: LabelWidget(
             HomePage.selectedItem.name,
             fontWeight: FontWeight.bold,
-            size: TextSize.title,
+            size: TextSize.subTitle1,
             color: MyColors.primary,
           ),
         ),
