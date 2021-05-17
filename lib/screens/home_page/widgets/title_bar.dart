@@ -160,6 +160,9 @@ class _TitleBarState extends State<TitleBar> with TickerProviderStateMixin {
                   borderRadius: BorderRadius.circular(8),
                   splashColor: MyColors.primary.withAlpha(125),
                   onTap: () {
+                    if (widget.pageController.page == 1) {
+                      return;
+                    }
                     widget.pageController.animateToPage(
                       1,
                       duration: Duration(milliseconds: 1500),
