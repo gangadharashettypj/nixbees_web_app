@@ -31,7 +31,7 @@ class _TitleBarState extends State<TitleBar> with TickerProviderStateMixin {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      widget.pageController.addListener(() {
+      widget.pageController?.addListener(() {
         setState(() {
           if (widget.pageController.page == 1) {
             productType = HomePage.selectedVariant;
@@ -122,82 +122,83 @@ class _TitleBarState extends State<TitleBar> with TickerProviderStateMixin {
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(
-            left: 16,
+        if (widget.pageController != null)
+          Container(
+            margin: EdgeInsets.only(
+              left: 16,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (productName != null || productType != null)
+                  InkWell(
+                    hoverColor: Colors.black,
+                    borderRadius: BorderRadius.circular(8),
+                    splashColor: MyColors.primary.withAlpha(125),
+                    onTap: () {
+                      widget.pageController.animateToPage(
+                        0,
+                        duration: Duration(milliseconds: 1500),
+                        curve: Curves.ease,
+                      );
+                    },
+                    child: LabelWidget(
+                      'Home',
+                      color: MyColors.primary,
+                      size: TextSize.subTitle,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                if (productType != null)
+                  Lottie.asset(
+                    MyLottieFile.rightArrow,
+                    width: 30,
+                    height: 30,
+                  ),
+                if (productType != null)
+                  InkWell(
+                    hoverColor: Colors.black,
+                    borderRadius: BorderRadius.circular(8),
+                    splashColor: MyColors.primary.withAlpha(125),
+                    onTap: () {
+                      if (widget.pageController.page == 1) {
+                        return;
+                      }
+                      widget.pageController.animateToPage(
+                        1,
+                        duration: Duration(milliseconds: 1500),
+                        curve: Curves.ease,
+                      );
+                    },
+                    child: LabelWidget(
+                      productType ?? '',
+                      color: MyColors.primary,
+                      size: TextSize.subTitle,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                if (productName != null)
+                  Lottie.asset(
+                    MyLottieFile.rightArrow,
+                    width: 30,
+                    height: 30,
+                  ),
+                if (productName != null)
+                  InkWell(
+                    hoverColor: Colors.black,
+                    borderRadius: BorderRadius.circular(8),
+                    splashColor: MyColors.primary.withAlpha(125),
+                    onTap: () {},
+                    child: LabelWidget(
+                      productName ?? '',
+                      color: MyColors.primary,
+                      size: TextSize.subTitle,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+              ],
+            ),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (productName != null || productType != null)
-                InkWell(
-                  hoverColor: Colors.black,
-                  borderRadius: BorderRadius.circular(8),
-                  splashColor: MyColors.primary.withAlpha(125),
-                  onTap: () {
-                    widget.pageController.animateToPage(
-                      0,
-                      duration: Duration(milliseconds: 1500),
-                      curve: Curves.ease,
-                    );
-                  },
-                  child: LabelWidget(
-                    'Home',
-                    color: MyColors.primary,
-                    size: TextSize.subTitle,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              if (productType != null)
-                Lottie.asset(
-                  MyLottieFile.rightArrow,
-                  width: 30,
-                  height: 30,
-                ),
-              if (productType != null)
-                InkWell(
-                  hoverColor: Colors.black,
-                  borderRadius: BorderRadius.circular(8),
-                  splashColor: MyColors.primary.withAlpha(125),
-                  onTap: () {
-                    if (widget.pageController.page == 1) {
-                      return;
-                    }
-                    widget.pageController.animateToPage(
-                      1,
-                      duration: Duration(milliseconds: 1500),
-                      curve: Curves.ease,
-                    );
-                  },
-                  child: LabelWidget(
-                    productType ?? '',
-                    color: MyColors.primary,
-                    size: TextSize.subTitle,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              if (productName != null)
-                Lottie.asset(
-                  MyLottieFile.rightArrow,
-                  width: 30,
-                  height: 30,
-                ),
-              if (productName != null)
-                InkWell(
-                  hoverColor: Colors.black,
-                  borderRadius: BorderRadius.circular(8),
-                  splashColor: MyColors.primary.withAlpha(125),
-                  onTap: () {},
-                  child: LabelWidget(
-                    productName ?? '',
-                    color: MyColors.primary,
-                    size: TextSize.subTitle,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-            ],
-          ),
-        ),
       ],
     );
   }

@@ -74,6 +74,50 @@ const _$PaymentModeEnumMap = {
   PaymentMode.prod: 'PROD',
 };
 
+PaymentResponseModel _$PaymentResponseModelFromJson(Map json) {
+  return PaymentResponseModel(
+    orderAmount: json['orderAmount'] as String,
+    customerName: json['customerName'] as String,
+    customerPhone: json['customerPhone'] as String,
+    customerEmail: json['customerEmail'] as String,
+    orderNote: json['orderNote'] as String,
+    stage: _$enumDecodeNullable(_$PaymentModeEnumMap, json['stage']),
+    orderId: json['orderId'] as String,
+    productName: json['productName'] as String,
+    productType: json['productType'] as String,
+    productId: json['productId'] as String,
+    numberOfProducts: json['numberOfProducts'] as int,
+    paymentMode: json['paymentMode'] as String,
+    referenceId: json['referenceId'] as String,
+    signature: json['signature'] as String,
+    txMsg: json['txMsg'] as String,
+    txStatus: json['txStatus'] as String,
+    txTime: json['txTime'] as String,
+  );
+}
+
+Map<String, dynamic> _$PaymentResponseModelToJson(
+        PaymentResponseModel instance) =>
+    <String, dynamic>{
+      'orderAmount': instance.orderAmount,
+      'customerName': instance.customerName,
+      'customerPhone': instance.customerPhone,
+      'customerEmail': instance.customerEmail,
+      'orderNote': instance.orderNote,
+      'orderId': instance.orderId,
+      'stage': _$PaymentModeEnumMap[instance.stage],
+      'productName': instance.productName,
+      'productType': instance.productType,
+      'productId': instance.productId,
+      'numberOfProducts': instance.numberOfProducts,
+      'paymentMode': instance.paymentMode,
+      'referenceId': instance.referenceId,
+      'signature': instance.signature,
+      'txMsg': instance.txMsg,
+      'txStatus': instance.txStatus,
+      'txTime': instance.txTime,
+    };
+
 ProductItem _$ProductItemFromJson(Map json) {
   return ProductItem(
     id: json['id'] as String,

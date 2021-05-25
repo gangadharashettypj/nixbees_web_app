@@ -47,6 +47,52 @@ class PaymentModel {
 }
 
 @JsonSerializable(explicitToJson: true, anyMap: true)
+class PaymentResponseModel {
+  String orderAmount;
+  String customerName;
+  String customerPhone;
+  String customerEmail;
+  String orderNote;
+  String orderId;
+  PaymentMode stage;
+  String productName;
+  String productType;
+  String productId;
+  int numberOfProducts;
+  String paymentMode;
+  String referenceId;
+  String signature;
+  String txMsg;
+  String txStatus;
+  String txTime;
+
+  PaymentResponseModel({
+    this.orderAmount,
+    this.customerName,
+    this.customerPhone,
+    this.customerEmail,
+    this.orderNote,
+    this.stage,
+    this.orderId,
+    this.productName,
+    this.productType,
+    this.productId,
+    this.numberOfProducts,
+    this.paymentMode,
+    this.referenceId,
+    this.signature,
+    this.txMsg,
+    this.txStatus,
+    this.txTime,
+  });
+
+  factory PaymentResponseModel.fromJson(Map<String, dynamic> json) =>
+      _$PaymentResponseModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PaymentResponseModelToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true, anyMap: true)
 class ProductItem {
   String id;
   String name;

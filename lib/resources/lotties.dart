@@ -11,4 +11,7 @@ class MyLottieFile {
   static String get downArrow => 'assets/lottie/down_arrow.json';
   static String get downArrow1 => 'assets/lottie/down_arrow1.json';
   static String get downArrow2 => 'assets/lottie/down_arrow2.json';
+  static String get loader => 'assets/lottie/loader.json';
+  static String get paymentFailed => 'assets/lottie/payment_failed.json';
+  static String get paymentSuccess => 'assets/lottie/payment_success.json';
 }
