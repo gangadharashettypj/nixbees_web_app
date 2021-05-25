@@ -82,21 +82,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: ProductDetail(
                   onDone: (paymentModel) async {
                     await FirebaseCrud.instance.set(
-                      'transactions/${paymentModel.orderID}',
+                      'transactions/${paymentModel.orderId}',
                       paymentModel.toJson(),
                     );
-                    pageController.jumpToPage(0);
+                    // pageController.jumpToPage(0);
                   },
                 ),
               ),
-              // Container(
-              //   child: Center(
-              //     child: LabelWidget(
-              //       'Checking',
-              //       color: Colors.white,
-              //     ),
-              //   ),
-              // )
             ],
           ),
           TitleBar(

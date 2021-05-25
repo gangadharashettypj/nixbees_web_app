@@ -18,7 +18,7 @@ class PaymentModel {
   String customerPhone;
   String customerEmail;
   String orderNote;
-  String orderID;
+  String orderId;
   PaymentMode stage;
   String productName;
   String productType;
@@ -32,7 +32,7 @@ class PaymentModel {
     this.customerEmail,
     this.orderNote,
     this.stage,
-    this.orderID,
+    this.orderId,
     this.productName,
     this.productType,
     this.productId,
