@@ -14,6 +14,11 @@ PaymentModel _$PaymentModelFromJson(Map json) {
     customerEmail: json['customerEmail'] as String,
     orderNote: json['orderNote'] as String,
     stage: _$enumDecodeNullable(_$PaymentModeEnumMap, json['stage']),
+    orderID: json['orderID'] as String,
+    productName: json['productName'] as String,
+    productType: json['productType'] as String,
+    productId: json['productId'] as String,
+    numberOfProducts: json['numberOfProducts'] as int,
   );
 }
 
@@ -24,7 +29,12 @@ Map<String, dynamic> _$PaymentModelToJson(PaymentModel instance) =>
       'customerPhone': instance.customerPhone,
       'customerEmail': instance.customerEmail,
       'orderNote': instance.orderNote,
+      'orderID': instance.orderID,
       'stage': _$PaymentModeEnumMap[instance.stage],
+      'productName': instance.productName,
+      'productType': instance.productType,
+      'productId': instance.productId,
+      'numberOfProducts': instance.numberOfProducts,
     };
 
 T _$enumDecode<T>(

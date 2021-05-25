@@ -4,6 +4,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:lottie/lottie.dart';
 import 'package:payment_gateway/common_widgets/label_widget.dart';
 import 'package:payment_gateway/common_widgets/scaffold/my_scaffold.dart';
+import 'package:payment_gateway/firebase/firebase_crud.dart';
 import 'package:payment_gateway/models.dart';
 import 'package:payment_gateway/resources/colors.dart';
 import 'package:payment_gateway/resources/lotties.dart';
@@ -79,11 +80,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               Container(
                 margin: EdgeInsets.only(top: 100),
                 child: ProductDetail(
-                  onDone: () {
+                  onDone: (paymentModel) async {
+                    await FirebaseCrud.instance.set(
+                      'transactions/${paymentModel.orderID}',
+                      paymentModel.toJson(),
+                    );
                     pageController.jumpToPage(0);
                   },
                 ),
               ),
+              // Container(
+              //   child: Center(
+              //     child: LabelWidget(
+              //       'Checking',
+              //       color: Colors.white,
+              //     ),
+              //   ),
+              // )
             ],
           ),
           TitleBar(

@@ -18,7 +18,12 @@ class PaymentModel {
   String customerPhone;
   String customerEmail;
   String orderNote;
+  String orderID;
   PaymentMode stage;
+  String productName;
+  String productType;
+  String productId;
+  int numberOfProducts;
 
   PaymentModel({
     this.orderAmount,
@@ -27,6 +32,11 @@ class PaymentModel {
     this.customerEmail,
     this.orderNote,
     this.stage,
+    this.orderID,
+    this.productName,
+    this.productType,
+    this.productId,
+    this.numberOfProducts,
   });
 
   factory PaymentModel.fromJson(Map<String, dynamic> json) =>

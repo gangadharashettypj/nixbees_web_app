@@ -16,7 +16,7 @@ import 'package:payment_gateway/utils/validators.dart';
 
 class ProductDetail extends StatefulWidget {
   static const String route = '/productDetail';
-  final Function onDone;
+  final void Function(PaymentModel) onDone;
 
   const ProductDetail({
     Key key,
@@ -36,6 +36,31 @@ class _ProductDetailState extends State<ProductDetail> {
   TextEditingController email = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController address = TextEditingController();
+
+  void _buyProduct() async {
+    if (_formKey.currentState.validate()) {
+      if (kIsWeb) {
+        final model = PaymentModel(
+          customerEmail: email.text,
+          customerName: name.text,
+          customerPhone: '91${phone.text}',
+          orderAmount:
+              ((HomePage.selectedItem.offerPrice * numberOfProduct) + 60)
+                  .toString(),
+          orderNote: address.text ?? '',
+          stage: PaymentMode.test,
+          orderID: DateTime.now().millisecondsSinceEpoch.toString(),
+          numberOfProducts: numberOfProduct,
+          productName: HomePage.selectedItem.name,
+          productType: HomePage.selectedVariant,
+        );
+        await PaymentUtil.instance.makeWebPayment(
+          model.toJsonString(),
+        );
+        widget.onDone?.call(model);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -300,26 +325,7 @@ class _ProductDetailState extends State<ProductDetail> {
                             ButtonWidget(
                               title:
                                   'Buy @ ₹${(HomePage.selectedItem.offerPrice * numberOfProduct) + 60}',
-                              onPressed: () async {
-                                if (_formKey.currentState.validate()) {
-                                  if (kIsWeb) {
-                                    await PaymentUtil.instance.makeWebPayment(
-                                      PaymentModel(
-                                        customerEmail: email.text,
-                                        customerName: name.text,
-                                        customerPhone: '91${phone.text}',
-                                        orderAmount:
-                                            ((HomePage.selectedItem.offerPrice *
-                                                        numberOfProduct) +
-                                                    60)
-                                                .toString(),
-                                        orderNote: address.text ?? '',
-                                        stage: PaymentMode.prod,
-                                      ).toJsonString(),
-                                    );
-                                  }
-                                }
-                              },
+                              onPressed: _buyProduct,
                               expanded: ResponsiveLayout.isSmallScreen(context)
                                   ? true
                                   : false,
@@ -500,26 +506,7 @@ class _ProductDetailState extends State<ProductDetail> {
             child: ButtonWidget(
               title:
                   'Buy @ ₹${(HomePage.selectedItem.offerPrice * numberOfProduct) + 60}',
-              onPressed: () async {
-                if (_formKey.currentState.validate()) {
-                  if (kIsWeb) {
-                    await PaymentUtil.instance.makeWebPayment(
-                      PaymentModel(
-                        customerEmail: email.text,
-                        customerName: name.text,
-                        customerPhone: '91${phone.text}',
-                        orderAmount: ((HomePage.selectedItem.offerPrice *
-                                    numberOfProduct) +
-                                60)
-                            .toString(),
-                        orderNote: 'Buying ${HomePage.selectedItem.name}',
-                        stage: PaymentMode.prod,
-                      ).toJsonString(),
-                    );
-                    widget.onDone?.call();
-                  }
-                }
-              },
+              onPressed: _buyProduct,
               expanded: ResponsiveLayout.isSmallScreen(context) ? true : false,
             ),
           ),
