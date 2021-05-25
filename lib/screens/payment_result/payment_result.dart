@@ -63,10 +63,23 @@ class _PaymentResultState extends State<PaymentResult> {
   }
 
   Widget buildNoDataView() {
-    return Center(
-      child: Lottie.asset(
-        MyLottieFile.loader,
-        height: MediaQuery.of(context).size.height * 0.2,
+    return Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Lottie.asset(
+            MyLottieFile.loader,
+            height: MediaQuery.of(context).size.height * 0.2,
+          ),
+          LabelWidget(
+            'Checking payment status...',
+            color: MyColors.primary,
+            size: 20,
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }
