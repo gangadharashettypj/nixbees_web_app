@@ -231,6 +231,8 @@ class _ProductDetailState extends State<ProductDetail> {
                       placeholder: 'ex: write the address to be delivered',
                       size: 16,
                       numberOfLine: 3,
+                      maxLength: 150,
+                      counterText: '',
                       textInputType: TextInputType.streetAddress,
                       initialValue: address.text,
                       onChanged: (val) {
@@ -415,6 +417,8 @@ class _ProductDetailState extends State<ProductDetail> {
             placeholder: 'ex: write the address to be delivered',
             size: 16,
             numberOfLine: 3,
+            maxLength: 150,
+            counterText: '',
             textInputType: TextInputType.streetAddress,
             initialValue: address.text,
             onChanged: (val) {
