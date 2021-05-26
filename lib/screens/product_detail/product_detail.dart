@@ -48,13 +48,12 @@ class _ProductDetailState extends State<ProductDetail> {
               ((HomePage.selectedItem.offerPrice * numberOfProduct) + 60)
                   .toString(),
           orderNote: address.text ?? '',
-          stage: PaymentMode.test,
+          stage: PaymentMode.prod,
           orderId: DateTime.now().millisecondsSinceEpoch.toString(),
           numberOfProducts: numberOfProduct,
           productName: HomePage.selectedItem.name,
           productType: HomePage.selectedVariant,
         );
-        print(model.toJsonString());
         await PaymentUtil.instance.makeWebPayment(
           model.toJsonString(),
         );
