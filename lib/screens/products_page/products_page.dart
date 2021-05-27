@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:payment_gateway/common_widgets/label_widget.dart';
-import 'package:payment_gateway/models.dart';
 import 'package:payment_gateway/resources/colors.dart';
 import 'package:payment_gateway/resources/images.dart';
 import 'package:payment_gateway/screens/home_page/home_page.dart';
@@ -11,7 +10,7 @@ import 'package:payment_gateway/utils/info_message_template.dart';
 import 'package:payment_gateway/utils/responsiveLayout.dart';
 
 class ProductsPage extends StatefulWidget {
-  final Function(ProductItem) onBuyItem;
+  final VoidCallback onBuyItem;
   ProductsPage({
     this.onBuyItem,
   });
@@ -62,25 +61,24 @@ class _ProductsPageState extends State<ProductsPage> {
         children: [
           Expanded(
             child: PageView(
-              scrollDirection: Axis.horizontal,
-              controller: controller,
-              onPageChanged: (val) {
-                setState(() {
-                  currentProduct = val + 1;
-                });
-              },
-              children: List.generate(
-                ProductsPageController.instance.products.length,
-                (index) => ProductItemWidget(
-                  item: ProductsPageController.instance.products[index],
-                  onBuy: () {
-                    widget.onBuyItem?.call(
-                      ProductsPageController.instance.products[index],
-                    );
-                  },
-                ),
-              ),
-            ),
+                scrollDirection: Axis.horizontal,
+                controller: controller,
+                onPageChanged: (val) {
+                  setState(() {
+                    currentProduct = val + 1;
+                  });
+                },
+                children: ProductsPageController.instance.products
+                    .map(
+                      (e) => ProductItemWidget(
+                        item: e,
+                        onBuy: () {
+                          HomePage.selectedItem = e;
+                          widget.onBuyItem?.call();
+                        },
+                      ),
+                    )
+                    .toList()),
           ),
           if (ResponsiveLayout.isLargeScreen(context))
             Row(

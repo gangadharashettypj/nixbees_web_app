@@ -65,8 +65,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               Container(
                 margin: EdgeInsets.only(top: 100),
                 child: ProductsPage(
-                  onBuyItem: (item) {
-                    HomePage.selectedItem = item;
+                  onBuyItem: () {
                     // manController.repeat();
                     pageController.animateToPage(
                       2,
