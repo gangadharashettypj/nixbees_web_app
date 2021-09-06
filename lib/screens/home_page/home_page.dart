@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:lottie/lottie.dart';
 import 'package:payment_gateway/common_widgets/label_widget.dart';
+import 'package:payment_gateway/common_widgets/lottie_gif_widget.dart';
 import 'package:payment_gateway/common_widgets/scaffold/my_scaffold.dart';
 import 'package:payment_gateway/firebase/firebase_crud.dart';
 import 'package:payment_gateway/models.dart';
@@ -113,24 +114,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         alignment: Alignment.center,
         child: FittedBox(
           fit: BoxFit.cover,
-          child: Lottie.asset(
-            MyLottieFile.bannerBackground,
+          child: LottieGifWidget(
+            lottiePath: MyLottieFile.bannerBackground,
+            lottieGifPath: MyLottieGifFile.bannerBackground,
           ),
-        ),
-      ),
-    );
-  }
-
-  getMan() {
-    return Positioned(
-      right: 0,
-      bottom: 0,
-      height: 70,
-      child: Transform.scale(
-        scale: 3,
-        child: Lottie.asset(
-          MyLottieFile.walkingMan,
-          controller: manController,
         ),
       ),
     );
@@ -153,8 +140,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     borderRadius: BorderRadius.circular(8),
                     splashColor: MyColors.primary.withAlpha(125),
                     onTap: () {
-                      HomePage.selectedVariant = ProductsPageController
-                          .instance.productVariants[index].id;
+                      HomePage.selectedVariant = ProductsPageController.instance.productVariants[index].id;
                       // manController.repeat();
                       pageController.animateToPage(
                         1,
@@ -172,8 +158,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           LabelWidget(
-                            ProductsPageController
-                                .instance.productVariants[index].name,
+                            ProductsPageController.instance.productVariants[index].name,
                             color: MyColors.primary,
                             size: TextSize.subTitle,
                             fontWeight: FontWeight.bold,

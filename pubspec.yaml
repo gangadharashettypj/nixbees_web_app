@@ -48,6 +48,7 @@ dependencies:
   url_launcher: ^6.0.3
   json_annotation: 3.1.1
   responsive_framework: ^0.1.0
+  flutter_gifimage: ^1.0.1
   firebase_database:
     git:
       url: https://github.com/gangadharashettypj/flutter_firebase_libs
@@ -79,5 +80,6 @@ flutter:
     - assets/images/
     - assets/fonts/
     - assets/lottie/
+    - assets/lottie_gif/
 
 
